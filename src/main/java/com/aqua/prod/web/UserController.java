@@ -2,7 +2,6 @@ package com.aqua.prod.web;
 
 import com.aqua.prod.entity.Users;
 import com.aqua.prod.service.UserService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> createUser(@Valid @RequestBody Users user)
+    public ResponseEntity<Map<String, Object>> createUser(@RequestBody Users user)
     {
         userService.saveUser(user);
         // Create a custom response map with the desired fields
