@@ -22,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
     {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager);
-        authenticationFilter.setFilterProcessesUrl("/authenticate");
+        authenticationFilter.setFilterProcessesUrl(SecurityConstants.LOGIN_PATH);
         http.headers().frameOptions().disable()
                 .and()
                 .csrf().disable()
@@ -37,5 +37,4 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
-
 }

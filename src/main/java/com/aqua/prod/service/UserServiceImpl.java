@@ -24,9 +24,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users getUser(String email)
+    public Users getUser(String userName)
     {
-        Optional<Users> user = userRepository.findByEmail(email);
+        Optional<Users> user = userRepository.findByUserName(userName);
         return unwrapUser(user, 404L);
     }
 
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         if (entity.isPresent()) {
             return entity.get();
         } else {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException(String.valueOf(Users.class));
         }
     }
 }
