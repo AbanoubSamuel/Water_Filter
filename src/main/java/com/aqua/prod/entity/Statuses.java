@@ -67,11 +67,11 @@ public class Statuses {
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(Object object)
     {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Statuses statuses = (Statuses) o;
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Statuses statuses = (Statuses) object;
         return id == statuses.id && isActive == statuses.isActive && Objects.equals(name, statuses.name) && Objects.equals(description, statuses.description);
     }
 }

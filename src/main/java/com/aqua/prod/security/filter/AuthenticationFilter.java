@@ -5,6 +5,7 @@ import com.aqua.prod.security.SecurityConstants;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 
 @AllArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -35,7 +37,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     {
         try {
             Users user = new ObjectMapper().readValue(request.getInputStream(), Users.class);
-            System.out.println(user);
             Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
             return authenticationManager.authenticate(authentication);
         } catch (IOException e) {
@@ -47,7 +48,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException
     {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().write(failed.getMessage());
+        response.setContentType("application/json");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String errorMessage = failed.getMessage();
+        String jsonBody = objectMapper.writeValueAsString(errorMessage);
+
+        response.getWriter().write(jsonBody);
         response.getWriter().flush();
     }
 
@@ -58,6 +65,22 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .withSubject(authResult.getName())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
-        response.setHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);
+
+        String jsonResponse = createJsonResponse(token);
+        response.setContentType("application/json");
+        response.getWriter().write(jsonResponse);
+    }
+
+    private String createJsonResponse(String token) throws IOException
+    {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Gson gson = new Gson();
+        Map<String, Object> response = Map.of(
+                "status", true,
+                "message", "User logged in successfully",
+                "token", SecurityConstants.BEARER + token
+        );
+
+        return gson.toJson(response);
     }
 }

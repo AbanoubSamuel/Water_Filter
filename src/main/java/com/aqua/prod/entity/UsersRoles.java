@@ -68,11 +68,11 @@ public class UsersRoles {
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(Object object)
     {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UsersRoles that = (UsersRoles) o;
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        UsersRoles that = (UsersRoles) object;
         return id == that.id && statusId == that.statusId && Objects.equals(name, that.name) && Objects.equals(description, that.description);
     }
 }

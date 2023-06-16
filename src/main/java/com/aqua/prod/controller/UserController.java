@@ -1,4 +1,4 @@
-package com.aqua.prod.web;
+package com.aqua.prod.controller;
 
 import com.aqua.prod.entity.Users;
 import com.aqua.prod.service.UserService;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/user")
 public class UserController {
 
     UserService userService;
@@ -29,7 +29,7 @@ public class UserController {
         // Create a custom response map with the desired fields
         Map<String, Object> response = Map.of(
                 "status", true,
-                "message", "User successfully registration",
+                "message", "User successfully registered",
                 "user", user
         );
         return new ResponseEntity<>(response, HttpStatus.CREATED);

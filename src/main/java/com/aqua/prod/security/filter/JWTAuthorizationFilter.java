@@ -1,8 +1,9 @@
 package com.aqua.prod.security.filter;
 
+import com.aqua.prod.security.SecurityConstants;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.aqua.prod.security.SecurityConstants;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,12 +14,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
-    {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String bearerToken = request.getHeader(SecurityConstants.AUTHORIZATION);
 
         if (bearerToken == null || !bearerToken.startsWith(SecurityConstants.BEARER)) {
@@ -35,6 +37,17 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
         Authentication authenticatedUser = new UsernamePasswordAuthenticationToken(user, null, List.of());
         SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-        filterChain.doFilter(request, response);
+
+        String jsonResponse = createJsonResponseWithToken(token);
+        response.setContentType("application/json");
+        response.getWriter().write(jsonResponse);
+    }
+
+    private String createJsonResponseWithToken(String token) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> jsonResponse = new HashMap<>();
+        jsonResponse.put("token", token);
+
+        return objectMapper.writeValueAsString(jsonResponse);
     }
 }

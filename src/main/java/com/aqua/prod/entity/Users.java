@@ -1,13 +1,16 @@
 package com.aqua.prod.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Users {
+public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID", nullable = false)
@@ -141,9 +144,46 @@ public class Users {
         this.emailConfirmed = emailConfirmed;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities()
+    {
+        return null;
+    }
+
+    @Override
     public String getPassword()
     {
         return password;
+    }
+
+    @Override
+    public String getUsername()
+    {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled()
+    {
+        return true;
     }
 
     public void setPassword(String password)
@@ -244,7 +284,9 @@ public class Users {
     {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Users users = (Users) o;
-        return id == users.id && emailConfirmed == users.emailConfirmed && phoneNumberConfirmed == users.phoneNumberConfirmed && roleId == users.roleId && statusId == users.statusId && Objects.equals(userName, users.userName) && Objects.equals(normalizedUserName, users.normalizedUserName) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && Objects.equals(email, users.email) && Objects.equals(normalizedEmail, users.normalizedEmail) && Objects.equals(password, users.password) && Objects.equals(phoneNumber, users.phoneNumber) && Objects.equals(fcm, users.fcm) && Arrays.equals(image, users.image) && Objects.equals(creationDateTime, users.creationDateTime) && Objects.equals(description, users.description);
+        Users user = (Users) o;
+        return id == user.id && emailConfirmed == user.emailConfirmed && phoneNumberConfirmed == user.phoneNumberConfirmed && roleId == user.roleId && statusId == user.statusId && Objects.equals(userName, user.userName) && Objects.equals(normalizedUserName, user.normalizedUserName) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(normalizedEmail, user.normalizedEmail) && Objects.equals(password, user.password) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(fcm, user.fcm) && Arrays.equals(image, user.image) && Objects.equals(creationDateTime, user.creationDateTime) && Objects.equals(description, user.description);
     }
+
+
 }
