@@ -15,7 +15,8 @@ import java.util.Map;
 
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
+    {
         try {
             filterChain.doFilter(request, response);
         } catch (EntityNotFoundException e) {
@@ -27,7 +28,8 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         }
     }
 
-    private void sendErrorResponse(HttpServletResponse response, int statusCode, String errorMessage) throws IOException {
+    private void sendErrorResponse(HttpServletResponse response, int statusCode, String errorMessage) throws IOException
+    {
         response.setStatus(statusCode);
         response.setContentType("application/json");
 
