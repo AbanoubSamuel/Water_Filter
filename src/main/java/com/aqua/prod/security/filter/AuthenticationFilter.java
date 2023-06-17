@@ -62,9 +62,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException
     {
         String token = JWT.create()
-                .withSubject(authResult.getName())
-                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
-                .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
+                          .withSubject(authResult.getName())
+                          .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
+                          .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
 
         String jsonResponse = createJsonResponse(token);
         response.setContentType("application/json");
@@ -73,14 +73,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private String createJsonResponse(String token) throws IOException
     {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Gson gson = new Gson();
+        Gson json = new Gson();
         Map<String, Object> response = Map.of(
                 "status", true,
                 "message", "User logged in successfully",
                 "token", SecurityConstants.BEARER + token
         );
-
-        return gson.toJson(response);
+        return json.toJson(response);
     }
 }

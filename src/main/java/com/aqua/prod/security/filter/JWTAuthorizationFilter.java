@@ -3,7 +3,7 @@ package com.aqua.prod.security.filter;
 import com.aqua.prod.security.SecurityConstants;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,8 @@ import java.util.Map;
 
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
+    {
         String bearerToken = request.getHeader(SecurityConstants.AUTHORIZATION);
 
         if (bearerToken == null || !bearerToken.startsWith(SecurityConstants.BEARER)) {
@@ -31,9 +32,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         String token = bearerToken.replace(SecurityConstants.BEARER, "");
 
         String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY))
-                .build()
-                .verify(token)
-                .getSubject();
+                         .build()
+                         .verify(token)
+                         .getSubject();
 
         Authentication authenticatedUser = new UsernamePasswordAuthenticationToken(user, null, List.of());
         SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
@@ -43,11 +44,11 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         response.getWriter().write(jsonResponse);
     }
 
-    private String createJsonResponseWithToken(String token) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
+    private String createJsonResponseWithToken(String token) throws IOException
+    {
+        Gson json = new Gson();
         Map<String, String> jsonResponse = new HashMap<>();
         jsonResponse.put("token", token);
-
-        return objectMapper.writeValueAsString(jsonResponse);
+        return json.toJson(jsonResponse);
     }
 }
