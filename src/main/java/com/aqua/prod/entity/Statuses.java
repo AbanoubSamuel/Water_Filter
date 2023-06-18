@@ -8,16 +8,16 @@ import java.util.Objects;
 public class Statuses {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private int id;
     @Basic
-    @Column(name = "Name", nullable = false, length = 100)
+    @Column(name = "Name")
     private String name;
     @Basic
-    @Column(name = "Is_Active", nullable = false)
+    @Column(name = "Is_Active")
     private boolean isActive;
     @Basic
-    @Column(name = "Description", nullable = true, length = 500)
+    @Column(name = "Description")
     private String description;
 
     public int getId()
@@ -61,17 +61,17 @@ public class Statuses {
     }
 
     @Override
-    public int hashCode()
+    public boolean equals(Object o)
     {
-        return Objects.hash(id, name, isActive, description);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Statuses statuses = (Statuses) o;
+        return id == statuses.id && isActive == statuses.isActive && Objects.equals(name, statuses.name) && Objects.equals(description, statuses.description);
     }
 
     @Override
-    public boolean equals(Object object)
+    public int hashCode()
     {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Statuses statuses = (Statuses) object;
-        return id == statuses.id && isActive == statuses.isActive && Objects.equals(name, statuses.name) && Objects.equals(description, statuses.description);
+        return Objects.hash(id, name, isActive, description);
     }
 }

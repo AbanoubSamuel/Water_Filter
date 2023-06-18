@@ -32,9 +32,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         String token = bearerToken.replace(SecurityConstants.BEARER, "");
 
         String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY))
-                         .build()
-                         .verify(token)
-                         .getSubject();
+                .build()
+                .verify(token)
+                .getSubject();
 
         Authentication authenticatedUser = new UsernamePasswordAuthenticationToken(user, null, List.of());
         SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
@@ -47,7 +47,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     private String createJsonResponseWithToken(String token) throws IOException
     {
         Gson json = new Gson();
-        Map<String, String> jsonResponse = new HashMap<>();
+        Map<String, Object> jsonResponse = new HashMap<>();
         jsonResponse.put("token", token);
         return json.toJson(jsonResponse);
     }
