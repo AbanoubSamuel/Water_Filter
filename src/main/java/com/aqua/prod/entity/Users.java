@@ -1,67 +1,64 @@
 package com.aqua.prod.entity;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Users implements UserDetails {
+public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private int id;
     @Basic
-    @Column(name = "User_Name", nullable = false, length = 100)
+    @Column(name = "User_Name")
     private String userName;
     @Basic
-    @Column(name = "Normalized_User_Name", nullable = false, length = 100)
+    @Column(name = "Normalized_User_Name")
     private String normalizedUserName;
     @Basic
-    @Column(name = "First_Name", nullable = false, length = 100)
+    @Column(name = "First_Name")
     private String firstName;
     @Basic
-    @Column(name = "Last_Name", nullable = false, length = 100)
+    @Column(name = "Last_Name")
     private String lastName;
     @Basic
-    @Column(name = "Email", nullable = false, length = 100)
+    @Column(name = "Email")
     private String email;
     @Basic
-    @Column(name = "Normalized_Email", nullable = false, length = 100)
+    @Column(name = "Normalized_Email")
     private String normalizedEmail;
     @Basic
-    @Column(name = "Email_Confirmed", nullable = false)
+    @Column(name = "Email_Confirmed")
     private boolean emailConfirmed;
     @Basic
-    @Column(name = "Password", nullable = false, length = 100)
+    @Column(name = "Password")
     private String password;
     @Basic
-    @Column(name = "Phone_Number", nullable = false, length = 100)
+    @Column(name = "Phone_Number")
     private String phoneNumber;
     @Basic
-    @Column(name = "Phone_Number_Confirmed", nullable = false)
+    @Column(name = "Phone_Number_Confirmed")
     private boolean phoneNumberConfirmed;
     @Basic
-    @Column(name = "FCM", nullable = true, length = 2147483647)
+    @Column(name = "FCM")
     private String fcm;
     @Basic
-    @Column(name = "Image", nullable = true)
+    @Column(name = "Image")
     private byte[] image;
     @Basic
-    @Column(name = "Role_ID", nullable = false)
+    @Column(name = "Role_ID")
     private int roleId;
     @Basic
-    @Column(name = "Status_ID", nullable = false)
+    @Column(name = "Status_ID")
     private int statusId;
     @Basic
-    @Column(name = "Creation_Date_Time", nullable = false)
+    @Column(name = "Creation_Date_Time")
     private Date creationDateTime;
     @Basic
-    @Column(name = "Description", nullable = true, length = 500)
+    @Column(name = "Description")
     private String description;
 
     public int getId()
@@ -144,46 +141,9 @@ public class Users implements UserDetails {
         this.emailConfirmed = emailConfirmed;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities()
-    {
-        return null;
-    }
-
-    @Override
     public String getPassword()
     {
         return password;
-    }
-
-    @Override
-    public String getUsername()
-    {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled()
-    {
-        return true;
     }
 
     public void setPassword(String password)
@@ -272,21 +232,19 @@ public class Users implements UserDetails {
     }
 
     @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Users users = (Users) o;
+        return id == users.id && emailConfirmed == users.emailConfirmed && phoneNumberConfirmed == users.phoneNumberConfirmed && roleId == users.roleId && statusId == users.statusId && Objects.equals(userName, users.userName) && Objects.equals(normalizedUserName, users.normalizedUserName) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && Objects.equals(email, users.email) && Objects.equals(normalizedEmail, users.normalizedEmail) && Objects.equals(password, users.password) && Objects.equals(phoneNumber, users.phoneNumber) && Objects.equals(fcm, users.fcm) && Arrays.equals(image, users.image) && Objects.equals(creationDateTime, users.creationDateTime) && Objects.equals(description, users.description);
+    }
+
+    @Override
     public int hashCode()
     {
         int result = Objects.hash(id, userName, normalizedUserName, firstName, lastName, email, normalizedEmail, emailConfirmed, password, phoneNumber, phoneNumberConfirmed, fcm, roleId, statusId, creationDateTime, description);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Users user = (Users) o;
-        return id == user.id && emailConfirmed == user.emailConfirmed && phoneNumberConfirmed == user.phoneNumberConfirmed && roleId == user.roleId && statusId == user.statusId && Objects.equals(userName, user.userName) && Objects.equals(normalizedUserName, user.normalizedUserName) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(normalizedEmail, user.normalizedEmail) && Objects.equals(password, user.password) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(fcm, user.fcm) && Arrays.equals(image, user.image) && Objects.equals(creationDateTime, user.creationDateTime) && Objects.equals(description, user.description);
-    }
-
-
 }

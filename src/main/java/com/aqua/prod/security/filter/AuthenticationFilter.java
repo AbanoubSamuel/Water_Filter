@@ -23,7 +23,6 @@ import java.util.Map;
 
 @AllArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
     private AuthenticationManager authenticationManager;
 
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -47,15 +46,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException
     {
+        Gson json = new Gson();
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
-
-        ObjectMapper objectMapper = new ObjectMapper();
         String errorMessage = failed.getMessage();
-        String jsonBody = objectMapper.writeValueAsString(errorMessage);
-
-        response.getWriter().write(jsonBody);
-        response.getWriter().flush();
+        json.toJson(errorMessage);
     }
 
     @Override
