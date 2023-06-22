@@ -31,10 +31,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(Users user)
+    public Users saveUser(Users user)
     {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        return user;
     }
 
     static Users unwrapUser(Optional<Users> entity, Long id)
