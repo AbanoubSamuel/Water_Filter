@@ -48,6 +48,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     {
         Gson json = new Gson();
         Map<String, Object> jsonResponse = new HashMap<>();
+        jsonResponse.put("success", true);
+        jsonResponse.put("message", "User logged-in successfully");
         jsonResponse.put("token", token);
         return json.toJson(jsonResponse);
     }
