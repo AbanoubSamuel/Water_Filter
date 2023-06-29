@@ -1,40 +1,32 @@
 package com.aqua.prod.security;
 
-import com.aqua.prod.security.filter.AuthenticationFilter;
-import com.aqua.prod.security.filter.ExceptionHandlerFilter;
-import com.aqua.prod.security.filter.JWTAuthorizationFilter;
-import com.aqua.prod.security.manager.CustomAuthenticationManager;
+import com.aqua.prod.security.filter.JWTRequestFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
+
+import static com.aqua.prod.security.SecurityConstants.*;
 
 @AllArgsConstructor
 @Configuration
 public class SecurityConfig {
 
-    CustomAuthenticationManager customAuthenticationManager;
+    private JWTRequestFilter jwtRequestFilter;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception
     {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager);
-        authenticationFilter.setFilterProcessesUrl(SecurityConstants.LOGIN_PATH);
-        http.headers().frameOptions().disable()
-                .and()
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, SecurityConstants.LOGIN_PATH).permitAll()
-                .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
-                .addFilter(authenticationFilter)
-                .addFilterAfter(new JWTAuthorizationFilter(), AuthenticationFilter.class)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        return http.build();
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.cors(AbstractHttpConfigurer::disable);
+        httpSecurity.addFilterBefore(jwtRequestFilter, AuthorizationFilter.class);
+        httpSecurity.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(HttpMethod.POST, LOGIN_PATH, REGISTER_PATH).permitAll()
+                .anyRequest().authenticated());
+        return httpSecurity.build();
     }
 }

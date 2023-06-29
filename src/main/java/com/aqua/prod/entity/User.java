@@ -1,5 +1,6 @@
 package com.aqua.prod.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -7,7 +8,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
-public class Users {
+@Table(name = "Users")
+public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID")
@@ -34,6 +36,7 @@ public class Users {
     @Column(name = "Email_Confirmed")
     private boolean emailConfirmed;
     @Basic
+    @JsonIgnore
     @Column(name = "Password")
     private String password;
     @Basic
@@ -60,6 +63,14 @@ public class Users {
     @Basic
     @Column(name = "Description")
     private String description;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Role_ID", referencedColumnName = "ID", insertable = false, updatable = false)
+    private UserRole userRole;
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
 
     public int getId()
     {
@@ -236,8 +247,8 @@ public class Users {
     {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Users users = (Users) o;
-        return id == users.id && emailConfirmed == users.emailConfirmed && phoneNumberConfirmed == users.phoneNumberConfirmed && roleId == users.roleId && statusId == users.statusId && Objects.equals(userName, users.userName) && Objects.equals(normalizedUserName, users.normalizedUserName) && Objects.equals(firstName, users.firstName) && Objects.equals(lastName, users.lastName) && Objects.equals(email, users.email) && Objects.equals(normalizedEmail, users.normalizedEmail) && Objects.equals(password, users.password) && Objects.equals(phoneNumber, users.phoneNumber) && Objects.equals(fcm, users.fcm) && Arrays.equals(image, users.image) && Objects.equals(creationDateTime, users.creationDateTime) && Objects.equals(description, users.description);
+        User user = (User) o;
+        return id == user.id && emailConfirmed == user.emailConfirmed && phoneNumberConfirmed == user.phoneNumberConfirmed && roleId == user.roleId && statusId == user.statusId && Objects.equals(userName, user.userName) && Objects.equals(normalizedUserName, user.normalizedUserName) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(normalizedEmail, user.normalizedEmail) && Objects.equals(password, user.password) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(fcm, user.fcm) && Arrays.equals(image, user.image) && Objects.equals(creationDateTime, user.creationDateTime) && Objects.equals(description, user.description);
     }
 
     @Override
@@ -248,3 +259,4 @@ public class Users {
         return result;
     }
 }
+
