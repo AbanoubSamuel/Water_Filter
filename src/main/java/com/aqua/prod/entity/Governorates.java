@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Users_Roles", schema = "dbo", catalog = "WaterFil")
-public class UsersRoles {
+public class Governorates {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID")
@@ -66,7 +65,7 @@ public class UsersRoles {
     {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UsersRoles that = (UsersRoles) o;
+        Governorates that = (Governorates) o;
         return id == that.id && statusId == that.statusId && Objects.equals(name, that.name) && Objects.equals(description, that.description);
     }
 
