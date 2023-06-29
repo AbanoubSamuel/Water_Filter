@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class JsonResponse<T> {
-    boolean status;
-    String message;
-    T data;
+public class LoginBody {
+    public String userName;
+    public String password;
 }
