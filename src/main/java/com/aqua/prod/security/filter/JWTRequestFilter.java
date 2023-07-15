@@ -4,7 +4,6 @@ import com.aqua.prod.dao.UserDAO;
 import com.aqua.prod.entity.User;
 import com.aqua.prod.impl.JWTServiceImpl;
 import com.aqua.prod.security.SecurityConstants;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,7 +43,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                 Optional<User> optionalUser = userDAO.findByUserNameIgnoreCase(username);
                 if (optionalUser.isPresent()) {
                     User user = optionalUser.get();
-                    String roleName = user.getUserRole().getName(); // Get the role name from the user entity
+                    String roleName = user.getUserType().getRole().getName(); // Get the role name from the user entity
                     // Create a SimpleGrantedAuthority using the role name
                     GrantedAuthority authority = new SimpleGrantedAuthority(roleName);
                     // Create a list of authorities (roles) for the user
@@ -54,10 +53,9 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-            } catch (JWTDecodeException exception) {
-
+            } catch (Exception exception) {
+                logger.error("Invalid token: " + exception.getMessage());
             }
-
         }
         filterChain.doFilter(request, response);
 

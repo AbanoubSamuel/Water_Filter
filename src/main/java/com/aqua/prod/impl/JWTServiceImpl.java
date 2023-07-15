@@ -4,6 +4,7 @@ import com.aqua.prod.entity.User;
 import com.aqua.prod.service.JWTService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,12 +35,15 @@ public class JWTServiceImpl implements JWTService {
 
     public String generateJWT(User user)
     {
-        String roleName = user.getUserRole().getName();
+        int expiryInDays = 7;
+        expiryInSeconds = expiryInDays * 24 * 60 * 60; // Convert days to seconds
+
+        String roleName = user.getUserType().getRole().getName();
         System.out.println("Role_" + roleName);
         return JWT.create()
                 .withClaim(USERNAME_KEY, user.getUserName())
                 .withClaim(ROLE, roleName)
-                .withExpiresAt(new Date(System.currentTimeMillis() + (1000 + expiryInSeconds)))
+                .withExpiresAt(new Date(System.currentTimeMillis() + (1000L * expiryInSeconds)))
                 .withIssuer(issuer)
                 .sign(algorithm);
     }
@@ -47,6 +51,7 @@ public class JWTServiceImpl implements JWTService {
 
     public String getUserName(String token)
     {
-        return JWT.decode(token).getClaim(USERNAME_KEY).asString();
+        DecodedJWT jwt = JWT.require(algorithm).withIssuer(issuer).build().verify(token);
+        return jwt.getClaim(USERNAME_KEY).asString();
     }
 }

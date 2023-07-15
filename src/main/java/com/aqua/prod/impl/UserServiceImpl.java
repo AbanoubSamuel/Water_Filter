@@ -5,6 +5,7 @@ import com.aqua.prod.dao.UserDAO;
 import com.aqua.prod.entity.User;
 import com.aqua.prod.model.LoginBody;
 import com.aqua.prod.model.RegistrationBody;
+import com.aqua.prod.model.UserDto;
 import com.aqua.prod.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,7 @@ public class UserServiceImpl implements UserService {
                 || userDAO.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()) {
             throw new UserExistsException();
         }
+
         User user = new User();
         user.setUserName(registrationBody.getUserName());
         user.setEmail(registrationBody.getEmail());
@@ -52,5 +54,14 @@ public class UserServiceImpl implements UserService {
         user.setLastName(registrationBody.getLastName());
         user.setPassword(encryptionService.encryptPassword(registrationBody.getPassword()));
         return userDAO.save(user);
+    }
+
+    public UserDto updateUserProfile(User user, UserDto userDto) throws Exception
+    {
+        userDto.setPassword(encryptionService.encryptPassword(userDto.getPassword()));
+
+        userDAO.save(UserDto.convertDtoToUser(user,userDto));
+        return userDto;
+
     }
 }

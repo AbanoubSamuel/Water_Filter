@@ -8,6 +8,5 @@ import java.util.Optional;
 public interface UserDAO extends ListCrudRepository<User, Long> {
     Optional<User> findByUserNameIgnoreCase(String userName);
 
-
     Optional<User> findByEmailIgnoreCase(String email);
 }
