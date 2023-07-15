@@ -6,6 +6,7 @@ import com.aqua.prod.impl.UserServiceImpl;
 import com.aqua.prod.model.JsonResponse;
 import com.aqua.prod.model.LoginBody;
 import com.aqua.prod.model.RegistrationBody;
+import com.aqua.prod.model.UserDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    UserServiceImpl userService;
+    private final UserServiceImpl userService;
 
     public AuthController(UserServiceImpl userService)
     {
@@ -33,7 +34,6 @@ public class AuthController {
         jsonResponse.setMessage("Registered succssfully");
         jsonResponse.setData(user);
         return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(201));
-
     }
 
 
@@ -56,13 +56,26 @@ public class AuthController {
 
 
     @GetMapping("/me")
-//    @PreAuthorize("hasRole('ROLE_user')")
     public ResponseEntity<JsonResponse<User>> getLoggedInUserProfile(@AuthenticationPrincipal User user)
     {
         JsonResponse<User> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
         jsonResponse.setMessage("User fetched successfully");
         jsonResponse.setData(user);
+        return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+    }
+
+
+    @PutMapping("/update")
+    public ResponseEntity<JsonResponse<UserDto>> updateUserProfile(@AuthenticationPrincipal User user, @RequestBody UserDto userDto) throws Exception
+    {
+        System.out.println(userDto.getUserName());
+        UserDto user1 = userService.updateUserProfile(user, userDto);
+        System.out.println(user);
+        JsonResponse<UserDto> jsonResponse = new JsonResponse<>();
+        jsonResponse.setStatus(true);
+        jsonResponse.setMessage("User updated successfully");
+        jsonResponse.setData(user1);
         return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
 

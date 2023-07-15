@@ -10,8 +10,8 @@ import org.hibernate.annotations.Nationalized;
 @Getter
 @Setter
 @Entity
-@Table(name = "Users_Roles")
-public class UserRole {
+@Table(name = "Locations")
+public class Location {
     @Id
     @Column(name = "ID", nullable = false)
     private Integer id;
@@ -23,7 +23,12 @@ public class UserRole {
     private String name;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "Area_ID", nullable = false)
+    private Area area;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
 

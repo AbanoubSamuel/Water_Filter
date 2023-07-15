@@ -1,6 +1,9 @@
 package com.aqua.prod.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -10,8 +13,8 @@ import org.hibernate.annotations.Nationalized;
 @Getter
 @Setter
 @Entity
-@Table(name = "Users_Roles")
-public class UserRole {
+@Table(name = "Statuses")
+public class Status {
     @Id
     @Column(name = "ID", nullable = false)
     private Integer id;
@@ -23,9 +26,8 @@ public class UserRole {
     private String name;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "Status_ID", nullable = false)
-    private Status status;
+    @Column(name = "Is_Active", nullable = false)
+    private Boolean isActive = false;
 
     @Size(max = 500)
     @Nationalized
