@@ -1,262 +1,109 @@
 package com.aqua.prod.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Nationalized;
 
-import java.sql.Date;
-import java.util.Arrays;
-import java.util.Objects;
+import java.time.Instant;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "Users")
 public class User {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID")
-    private int id;
-    @Basic
-    @Column(name = "User_Name")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private Integer id;
+
+    @Size(max = 100)
+    @NotNull
+    @Nationalized
+    @Column(name = "User_Name", nullable = false, length = 100)
     private String userName;
-    @Basic
-    @Column(name = "Normalized_User_Name")
+
+    @Size(max = 100)
+    @NotNull
+    @Nationalized
+    @Column(name = "Normalized_User_Name", nullable = false, length = 100)
     private String normalizedUserName;
-    @Basic
-    @Column(name = "First_Name")
+
+    @Size(max = 100)
+    @NotNull
+    @Nationalized
+    @Column(name = "First_Name", nullable = false, length = 100)
     private String firstName;
-    @Basic
-    @Column(name = "Last_Name")
+
+    @Size(max = 100)
+    @NotNull
+    @Nationalized
+    @Column(name = "Last_Name", nullable = false, length = 100)
     private String lastName;
-    @Basic
-    @Column(name = "Email")
+
+    @Size(max = 100)
+    @NotNull
+    @Nationalized
+    @Column(name = "Email", nullable = false, length = 100)
     private String email;
-    @Basic
-    @Column(name = "Normalized_Email")
+
+    @Size(max = 100)
+    @NotNull
+    @Nationalized
+    @Column(name = "Normalized_Email", nullable = false, length = 100)
     private String normalizedEmail;
-    @Basic
-    @Column(name = "Email_Confirmed")
-    private boolean emailConfirmed;
-    @Basic
-    @JsonIgnore
-    @Column(name = "Password")
+
+    @NotNull
+    @Column(name = "Email_Confirmed", nullable = false)
+    private Boolean emailConfirmed = false;
+
+    @Size(max = 100)
+    @NotNull
+    @Nationalized
+    @Column(name = "Password", nullable = false, length = 100)
     private String password;
-    @Basic
-    @Column(name = "Phone_Number")
+
+    @Size(max = 100)
+    @NotNull
+    @Nationalized
+    @Column(name = "Phone_Number", nullable = false, length = 100)
     private String phoneNumber;
-    @Basic
-    @Column(name = "Phone_Number_Confirmed")
-    private boolean phoneNumberConfirmed;
-    @Basic
+
+    @NotNull
+    @Column(name = "Phone_Number_Confirmed", nullable = false)
+    private Boolean phoneNumberConfirmed = false;
+
+    @Nationalized
+    @Lob
     @Column(name = "FCM")
     private String fcm;
-    @Basic
+
     @Column(name = "Image")
     private byte[] image;
-    @Basic
-    @Column(name = "Role_ID")
-    private int roleId;
-    @Basic
-    @Column(name = "Status_ID")
-    private int statusId;
-    @Basic
-    @Column(name = "Creation_Date_Time")
-    private Date creationDateTime;
-    @Basic
-    @Column(name = "Description")
-    private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "Role_ID", referencedColumnName = "ID", insertable = false, updatable = false)
-    private UserRole userRole;
+    @JoinColumn(name = "Employee_ID")
+    private Employee employee;
 
-    public UserRole getUserRole() {
-        return userRole;
-    }
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "User_Type_ID", nullable = false)
+    private UsersType userType;
 
-    public int getId()
-    {
-        return id;
-    }
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "Status_ID", nullable = false)
+    private Status status;
 
-    public void setId(int id)
-    {
-        this.id = id;
-    }
+    @NotNull
+    @Column(name = "Creation_Date_Time", nullable = false)
+    private Instant creationDateTime;
 
-    public String getUserName()
-    {
-        return userName;
-    }
+    @Size(max = 500)
+    @Nationalized
+    @Column(name = "Description", length = 500)
+    private String description;
 
-    public void setUserName(String userName)
-    {
-        this.userName = userName;
-    }
-
-    public String getNormalizedUserName()
-    {
-        return normalizedUserName;
-    }
-
-    public void setNormalizedUserName(String normalizedUserName)
-    {
-        this.normalizedUserName = normalizedUserName;
-    }
-
-    public String getFirstName()
-    {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName)
-    {
-        this.firstName = firstName;
-    }
-
-    public String getLastName()
-    {
-        return lastName;
-    }
-
-    public void setLastName(String lastName)
-    {
-        this.lastName = lastName;
-    }
-
-    public String getEmail()
-    {
-        return email;
-    }
-
-    public void setEmail(String email)
-    {
-        this.email = email;
-    }
-
-    public String getNormalizedEmail()
-    {
-        return normalizedEmail;
-    }
-
-    public void setNormalizedEmail(String normalizedEmail)
-    {
-        this.normalizedEmail = normalizedEmail;
-    }
-
-    public boolean isEmailConfirmed()
-    {
-        return emailConfirmed;
-    }
-
-    public void setEmailConfirmed(boolean emailConfirmed)
-    {
-        this.emailConfirmed = emailConfirmed;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
-
-    public String getPhoneNumber()
-    {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber)
-    {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public boolean isPhoneNumberConfirmed()
-    {
-        return phoneNumberConfirmed;
-    }
-
-    public void setPhoneNumberConfirmed(boolean phoneNumberConfirmed)
-    {
-        this.phoneNumberConfirmed = phoneNumberConfirmed;
-    }
-
-    public String getFcm()
-    {
-        return fcm;
-    }
-
-    public void setFcm(String fcm)
-    {
-        this.fcm = fcm;
-    }
-
-    public byte[] getImage()
-    {
-        return image;
-    }
-
-    public void setImage(byte[] image)
-    {
-        this.image = image;
-    }
-
-    public int getRoleId()
-    {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId)
-    {
-        this.roleId = roleId;
-    }
-
-    public int getStatusId()
-    {
-        return statusId;
-    }
-
-    public void setStatusId(int statusId)
-    {
-        this.statusId = statusId;
-    }
-
-    public Date getCreationDateTime()
-    {
-        return creationDateTime;
-    }
-
-    public void setCreationDateTime(Date creationDateTime)
-    {
-        this.creationDateTime = creationDateTime;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id && emailConfirmed == user.emailConfirmed && phoneNumberConfirmed == user.phoneNumberConfirmed && roleId == user.roleId && statusId == user.statusId && Objects.equals(userName, user.userName) && Objects.equals(normalizedUserName, user.normalizedUserName) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(normalizedEmail, user.normalizedEmail) && Objects.equals(password, user.password) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(fcm, user.fcm) && Arrays.equals(image, user.image) && Objects.equals(creationDateTime, user.creationDateTime) && Objects.equals(description, user.description);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        int result = Objects.hash(id, userName, normalizedUserName, firstName, lastName, email, normalizedEmail, emailConfirmed, password, phoneNumber, phoneNumberConfirmed, fcm, roleId, statusId, creationDateTime, description);
-        result = 31 * result + Arrays.hashCode(image);
-        return result;
-    }
 }
-
