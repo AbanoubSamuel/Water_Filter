@@ -1,4 +1,4 @@
-package com.aqua.prod.api.exception;
+package com.aqua.prod.exception;
 
 public class UserExistsException  extends Exception{
 }

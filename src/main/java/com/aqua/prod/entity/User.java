@@ -83,13 +83,14 @@ public class User {
     @Column(name = "Image")
     private byte[] image;
 
-    @Column(name = "Employee_ID")
-    private Integer employeeId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Employee_ID")
+    private Employee employee;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "User_Type_ID", nullable = false)
-    private UserType userType;
+    private UsersType userType;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -104,7 +105,5 @@ public class User {
     @Nationalized
     @Column(name = "Description", length = 500)
     private String description;
-
-
 
 }

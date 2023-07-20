@@ -1,4 +1,4 @@
-package com.aqua.prod.model;
+package com.aqua.prod.dto;
 
 import com.aqua.prod.entity.User;
 import jakarta.validation.constraints.NotNull;
@@ -36,7 +36,7 @@ public class UserDto implements Serializable {
     @Size(max = 500)
     private String description;
 
-    public static User convertDtoToUser(User user,UserDto userDto)
+    public static User convertDtoToUser(User user, UserDto userDto)
     {
         user.setUserName(userDto.getUserName());
         user.setFirstName(userDto.getFirstName());

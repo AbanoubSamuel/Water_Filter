@@ -1,11 +1,11 @@
-package com.aqua.prod.model;
+package com.aqua.prod.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class RegistrationBody {
+public class RegistrationDto {
     private String userName;
     private String email;
     private String password;

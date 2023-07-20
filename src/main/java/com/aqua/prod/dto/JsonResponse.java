@@ -1,4 +1,4 @@
-package com.aqua.prod.model;
+package com.aqua.prod.dto;
 
 import lombok.Getter;
 import lombok.Setter;
