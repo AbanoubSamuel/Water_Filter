@@ -1,9 +1,9 @@
 package com.aqua.prod.security.filter;
 
-import com.aqua.prod.dao.UserDAO;
+import com.aqua.prod.datarest.UserRepo;
 import com.aqua.prod.entity.User;
-import com.aqua.prod.impl.JWTServiceImpl;
 import com.aqua.prod.security.SecurityConstants;
+import com.aqua.prod.serviceImpl.JWTServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ import static com.aqua.prod.security.SecurityConstants.BEARER;
 public class JWTRequestFilter extends OncePerRequestFilter {
 
     private JWTServiceImpl jwtService;
-    private UserDAO userDAO;
+    private UserRepo userRepo;
 
 
     @Override
@@ -40,7 +40,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             String token = tokenHeader.substring(7);
             try {
                 String username = jwtService.getUserName(token);
-                Optional<User> optionalUser = userDAO.findByUserNameIgnoreCase(username);
+                Optional<User> optionalUser = userRepo.findByUserNameIgnoreCase(username);
                 if (optionalUser.isPresent()) {
                     User user = optionalUser.get();
                     String roleName = user.getUserType().getRole().getName(); // Get the role name from the user entity

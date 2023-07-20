@@ -10,22 +10,23 @@ import org.hibernate.annotations.Nationalized;
 @Getter
 @Setter
 @Entity
-@Table(name = "Governorates")
-public class Governorate {
+@Table(name = "Warehouses")
+public class Warehouse {
     @Id
     @Column(name = "ID", nullable = false)
     private Integer id;
+
+    @Size(max = 20)
+    @NotNull
+    @Nationalized
+    @Column(name = "Code", nullable = false, length = 20)
+    private String code;
 
     @Size(max = 100)
     @NotNull
     @Nationalized
     @Column(name = "Name", nullable = false, length = 100)
     private String name;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Country_ID", nullable = false)
-    private Country country;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

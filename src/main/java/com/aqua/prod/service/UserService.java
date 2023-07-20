@@ -1,9 +1,9 @@
 package com.aqua.prod.service;
 
-import com.aqua.prod.model.LoginBody;
+import com.aqua.prod.dto.LoginDto;
 
 public interface UserService {
 //    User saveUser(User user);
 
-    String login(LoginBody loginBody);
+    String login(LoginDto loginDto);
 }

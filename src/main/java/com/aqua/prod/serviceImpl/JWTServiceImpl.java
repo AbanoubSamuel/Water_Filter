@@ -1,4 +1,4 @@
-package com.aqua.prod.impl;
+package com.aqua.prod.serviceImpl;
 
 import com.aqua.prod.entity.User;
 import com.aqua.prod.service.JWTService;

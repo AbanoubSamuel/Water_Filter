@@ -1,4 +1,4 @@
-package com.aqua.prod.impl;
+package com.aqua.prod.serviceImpl;
 
 import com.aqua.prod.service.EncryptionService;
 import jakarta.annotation.PostConstruct;
