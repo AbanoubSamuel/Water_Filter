@@ -48,9 +48,9 @@ public class EmployeesPayrollItem {
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
 
-    @Size(max = 500)
+    @Size(max = 1000)
     @Nationalized
-    @Column(name = "Remarks", length = 500)
+    @Column(name = "Remarks", length = 1000)
     private String remarks;
 
 }

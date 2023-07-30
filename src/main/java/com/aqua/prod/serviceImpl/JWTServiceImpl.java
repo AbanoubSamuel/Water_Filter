@@ -48,7 +48,6 @@ public class JWTServiceImpl implements JWTService {
                 .sign(algorithm);
     }
 
-
     public String getUserName(String token)
     {
         DecodedJWT jwt = JWT.require(algorithm).withIssuer(issuer).build().verify(token);

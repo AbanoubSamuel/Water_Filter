@@ -23,9 +23,9 @@ public class EiCurrency {
     @Column(name = "Code", length = 100)
     private String code;
 
-    @Size(max = 500)
+    @Size(max = 1000)
     @Nationalized
-    @Column(name = "EnglishDesc", length = 500)
+    @Column(name = "EnglishDesc", length = 1000)
     private String englishDesc;
 
 }

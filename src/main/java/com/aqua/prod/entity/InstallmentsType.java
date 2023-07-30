@@ -42,14 +42,14 @@ public class InstallmentsType {
     @Column(name = "Yearly_Interest_Percent", nullable = false)
     private Double yearlyInterestPercent;
 
-    @Size(max = 500)
-    @Nationalized
-    @Column(name = "Remarks", length = 500)
-    private String remarks;
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
+
+    @Size(max = 1000)
+    @Nationalized
+    @Column(name = "Remarks", length = 1000)
+    private String remarks;
 
 }

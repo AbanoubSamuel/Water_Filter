@@ -1,13 +1,17 @@
 package com.aqua.prod.serviceImpl;
 
+import com.aqua.prod.datarest.EmployeeRepo;
 import com.aqua.prod.datarest.UserRepo;
+import com.aqua.prod.dto.EmployeeDto;
 import com.aqua.prod.dto.LoginDto;
-import com.aqua.prod.dto.RegistrationDto;
+import com.aqua.prod.dto.RegisterDto;
 import com.aqua.prod.dto.UserDto;
+import com.aqua.prod.entity.Employee;
 import com.aqua.prod.entity.User;
 import com.aqua.prod.exception.UserExistsException;
 import com.aqua.prod.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -15,12 +19,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private UserRepo userRepo;
+    private EmployeeRepo employeeRepo;
     private EncryptionServiceImpl encryptionService;
     private JWTServiceImpl jwtService;
 
-    public UserServiceImpl(UserRepo userRepo, EncryptionServiceImpl encryptionService, JWTServiceImpl jwtService)
+    public UserServiceImpl(UserRepo userRepo, EmployeeRepo employeeRepo, EncryptionServiceImpl encryptionService, JWTServiceImpl jwtService)
     {
         this.userRepo = userRepo;
+        this.employeeRepo = employeeRepo;
         this.encryptionService = encryptionService;
         this.jwtService = jwtService;
     }
@@ -40,26 +46,26 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    public User register(RegistrationDto registrationDto) throws UserExistsException
+    public User register(RegisterDto registerDto) throws UserExistsException
     {
-        if (userRepo.findByUserNameIgnoreCase(registrationDto.getUserName()).isPresent()
-                || userRepo.findByEmailIgnoreCase(registrationDto.getEmail()).isPresent()) {
+        if (userRepo.findByUserNameIgnoreCase(registerDto.getUserName()).isPresent()
+                || userRepo.findByEmailIgnoreCase(registerDto.getEmail()).isPresent()) {
             throw new UserExistsException();
         }
 
         User user = new User();
-        user.setUserName(registrationDto.getUserName());
-        user.setEmail(registrationDto.getEmail());
-        user.setFirstName(registrationDto.getFirstName());
-        user.setLastName(registrationDto.getLastName());
-        user.setPassword(encryptionService.encryptPassword(registrationDto.getPassword()));
+        user.setUserName(registerDto.getUserName());
+        user.setEmail(registerDto.getEmail());
+        user.setFirstName(registerDto.getFirstName());
+        user.setLastName(registerDto.getLastName());
+        user.setPassword(encryptionService.encryptPassword(registerDto.getPassword()));
         return userRepo.save(user);
     }
 
     public UserDto updateUserProfile(User user, UserDto userDto) throws Exception
     {
         userDto.setPassword(encryptionService.encryptPassword(userDto.getPassword()));
-        userRepo.save(UserDto.convertDtoToUser(user,userDto));
+        userRepo.save(UserDto.convertDtoToUser(user, userDto));
         return userDto;
 
     }

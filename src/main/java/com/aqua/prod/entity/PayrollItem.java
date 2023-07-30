@@ -16,10 +16,10 @@ public class PayrollItem {
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "Name", nullable = false, length = 100)
+    @Column(name = "Name", nullable = false, length = 200)
     private String name;
 
     @NotNull
@@ -27,10 +27,10 @@ public class PayrollItem {
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
 
-    @Size(max = 500)
+    @Size(max = 1000)
     @NotNull
     @Nationalized
-    @Column(name = "Description", nullable = false, length = 500)
+    @Column(name = "Description", nullable = false, length = 1000)
     private String description;
 
 }

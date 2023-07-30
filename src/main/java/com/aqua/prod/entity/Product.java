@@ -18,22 +18,22 @@ public class Product {
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @Size(max = 20)
+    @Size(max = 50)
     @NotNull
     @Nationalized
-    @Column(name = "Code", nullable = false, length = 20)
+    @Column(name = "Code", nullable = false, length = 50)
     private String code;
 
-    @Size(max = 20)
+    @Size(max = 50)
     @NotNull
     @Nationalized
-    @Column(name = "SKU_Code", nullable = false, length = 20)
+    @Column(name = "SKU_Code", nullable = false, length = 50)
     private String skuCode;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "Name", nullable = false, length = 100)
+    @Column(name = "Name", nullable = false, length = 200)
     private String name;
 
     @NotNull
@@ -45,6 +45,10 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Manufacturer_ID", nullable = false)
     private Manufacturer manufacturer;
+
+    @NotNull
+    @Column(name = "NB_Of_Stages", nullable = false)
+    private Integer nbOfStages;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -60,14 +64,14 @@ public class Product {
     @Column(name = "Creation_Date_Time", nullable = false)
     private Instant creationDateTime;
 
-    @Size(max = 500)
+    @Size(max = 1000)
     @Nationalized
-    @Column(name = "Remarks", length = 500)
+    @Column(name = "Remarks", length = 1000)
     private String remarks;
 
-    @Size(max = 500)
+    @Size(max = 1000)
     @Nationalized
-    @Column(name = "Description", length = 500)
+    @Column(name = "Description", length = 1000)
     private String description;
 
 }
