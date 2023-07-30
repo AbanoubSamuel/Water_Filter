@@ -11,7 +11,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "Products_Installment_Matrix")
-public class ProductsInstallmentMatrix {
+public class ProductInstallmentMatrix {
     @Id
     @Column(name = "ID", nullable = false)
     private Integer id;

@@ -19,10 +19,10 @@ public class Employee {
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @Size(max = 20)
+    @Size(max = 50)
     @NotNull
     @Nationalized
-    @Column(name = "Code", nullable = false, length = 20)
+    @Column(name = "Code", nullable = false, length = 50)
     private String code;
 
     @Size(max = 200)
@@ -31,30 +31,20 @@ public class Employee {
     @Column(name = "Name", nullable = false, length = 200)
     private String name;
 
-    @NotNull
-    @Column(name = "National_NB", nullable = false)
-    private Integer nationalNb;
-
     @Size(max = 100)
     @NotNull
     @Nationalized
-    @Column(name = "Email", nullable = false, length = 100)
-    private String email;
+    @Column(name = "National_NB", nullable = false, length = 100)
+    private String nationalNb;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Gender_ID", nullable = false)
     private Gender gender;
 
-    @Size(max = 100)
-    @NotNull
+    @Size(max = 1000)
     @Nationalized
-    @Column(name = "Mobile", nullable = false, length = 100)
-    private String mobile;
-
-    @Size(max = 500)
-    @Nationalized
-    @Column(name = "Address", length = 500)
+    @Column(name = "Address", length = 1000)
     private String address;
 
     @NotNull
@@ -72,7 +62,7 @@ public class Employee {
     private Department department;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Position_ID", nullable = false)
     private Position position;
 
@@ -80,25 +70,25 @@ public class Employee {
     @JoinColumn(name = "Direct_Manager_ID")
     private Employee directManager;
 
-    @Column(name = "Image")
-    private byte[] image;
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Attendance_Type_ID", nullable = false)
     private AttendanceType attendanceType;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "User_ID")
+    private User user;
+
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
 
     @Column(name = "Creation_Date_Time")
     private Instant creationDateTime;
 
-    @Size(max = 500)
+    @Size(max = 1000)
     @Nationalized
-    @Column(name = "Remarks", length = 500)
+    @Column(name = "Remarks", length = 1000)
     private String remarks;
-
 }

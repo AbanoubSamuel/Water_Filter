@@ -10,22 +10,33 @@ import org.hibernate.annotations.Nationalized;
 @Getter
 @Setter
 @Entity
-@Table(name = "Locations")
-public class Location {
+@Table(name = "Customers_Addresses")
+public class CustomersAddress {
     @Id
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @Size(max = 200)
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "Customer_ID", nullable = false)
+    private Customer customer;
+
+    @Size(max = 1000)
     @NotNull
     @Nationalized
-    @Column(name = "Name", nullable = false, length = 200)
+    @Column(name = "Name", nullable = false, length = 1000)
     private String name;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Area_ID", nullable = false)
-    private Area area;
+    @JoinColumn(name = "Location_ID", nullable = false)
+    private Location location;
+
+    @Size(max = 1000)
+    @NotNull
+    @Nationalized
+    @Column(name = "Landmark", nullable = false, length = 1000)
+    private String landmark;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -36,5 +47,10 @@ public class Location {
     @Nationalized
     @Column(name = "Description", length = 1000)
     private String description;
+
+    @Size(max = 1000)
+    @Nationalized
+    @Column(name = "Reamrks", length = 1000)
+    private String reamrks;
 
 }
