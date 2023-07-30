@@ -2,7 +2,7 @@ package com.aqua.prod.api.controller;
 
 import com.aqua.prod.dto.JsonResponse;
 import com.aqua.prod.dto.LoginDto;
-import com.aqua.prod.dto.RegistrationDto;
+import com.aqua.prod.dto.RegisterDto;
 import com.aqua.prod.dto.UserDto;
 import com.aqua.prod.entity.User;
 import com.aqua.prod.exception.UserExistsException;
@@ -26,16 +26,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<JsonResponse<User>> register(@Validated @RequestBody RegistrationDto registrationDto) throws UserExistsException
+    public ResponseEntity<JsonResponse<User>> register(@Validated @RequestBody RegisterDto registerDto) throws UserExistsException
     {
-        User user = userService.register(registrationDto);
+        User user = userService.register(registerDto);
         JsonResponse<User> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
         jsonResponse.setMessage("Registered succssfully");
         jsonResponse.setData(user);
         return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(201));
     }
-
 
     @PostMapping("/login")
     public ResponseEntity<JsonResponse<String>> login(@Validated @RequestBody LoginDto loginDto)

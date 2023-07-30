@@ -15,60 +15,59 @@ import java.time.Instant;
 @Table(name = "Users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "User_Name", nullable = false, length = 100)
+    @Column(name = "User_Name", nullable = false, length = 200)
     private String userName;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "Normalized_User_Name", nullable = false, length = 100)
+    @Column(name = "Normalized_User_Name", nullable = false, length = 200)
     private String normalizedUserName;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "First_Name", nullable = false, length = 100)
+    @Column(name = "First_Name", nullable = false, length = 200)
     private String firstName;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "Last_Name", nullable = false, length = 100)
+    @Column(name = "Last_Name", nullable = false, length = 200)
     private String lastName;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "Email", nullable = false, length = 100)
+    @Column(name = "Email", nullable = false, length = 200)
     private String email;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "Normalized_Email", nullable = false, length = 100)
+    @Column(name = "Normalized_Email", nullable = false, length = 200)
     private String normalizedEmail;
 
     @NotNull
     @Column(name = "Email_Confirmed", nullable = false)
     private Boolean emailConfirmed = false;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "Password", nullable = false, length = 100)
+    @Column(name = "Password", nullable = false, length = 200)
     private String password;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "Phone_Number", nullable = false, length = 100)
+    @Column(name = "Phone_Number", nullable = false, length = 200)
     private String phoneNumber;
 
     @NotNull
@@ -83,14 +82,10 @@ public class User {
     @Column(name = "Image")
     private byte[] image;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "Employee_ID")
-    private Employee employee;
-
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "User_Type_ID", nullable = false)
-    private UsersType userType;
+    private UserType userType;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -101,9 +96,9 @@ public class User {
     @Column(name = "Creation_Date_Time", nullable = false)
     private Instant creationDateTime;
 
-    @Size(max = 500)
+    @Size(max = 1000)
     @Nationalized
-    @Column(name = "Description", length = 500)
+    @Column(name = "Description", length = 1000)
     private String description;
 
 }

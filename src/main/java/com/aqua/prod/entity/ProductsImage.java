@@ -37,10 +37,10 @@ public class ProductsImage {
     @Column(name = "Show_In_Store", nullable = false)
     private Boolean showInStore = false;
 
-    @Size(max = 200)
+    @Size(max = 1000)
     @NotNull
     @Nationalized
-    @Column(name = "Remarks", nullable = false, length = 200)
+    @Column(name = "Remarks", nullable = false, length = 1000)
     private String remarks;
 
 }

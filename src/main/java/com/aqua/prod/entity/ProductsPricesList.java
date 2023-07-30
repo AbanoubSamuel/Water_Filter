@@ -50,10 +50,10 @@ public class ProductsPricesList {
     @Column(name = "Trans_Date_Time", nullable = false)
     private Instant transDateTime;
 
-    @Size(max = 500)
+    @Size(max = 1000)
     @NotNull
     @Nationalized
-    @Column(name = "Remarks", nullable = false, length = 500)
+    @Column(name = "Remarks", nullable = false, length = 1000)
     private String remarks;
 
 }

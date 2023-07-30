@@ -13,14 +13,13 @@ import org.hibernate.annotations.Nationalized;
 @Table(name = "Departments")
 public class Department {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @Size(max = 100)
+    @Size(max = 200)
     @NotNull
     @Nationalized
-    @Column(name = "Name", nullable = false, length = 100)
+    @Column(name = "Name", nullable = false, length = 200)
     private String name;
 
     @NotNull
@@ -28,9 +27,9 @@ public class Department {
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
 
-    @Size(max = 500)
+    @Size(max = 1000)
     @Nationalized
-    @Column(name = "Description", length = 500)
+    @Column(name = "Description", length = 1000)
     private String description;
 
 }

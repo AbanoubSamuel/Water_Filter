@@ -7,34 +7,40 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @Entity
-@Table(name = "Monthly_Employees_Payroll_Items")
-public class MonthlyEmployeesPayrollItem {
+@Table(name = "Products_Stages")
+public class ProductsStage {
     @Id
     @Column(name = "ID", nullable = false)
     private Integer id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Employee_ID", nullable = false)
-    private Employee employee;
+    @JoinColumn(name = "Device_ID", nullable = false)
+    private Product device;
 
     @NotNull
-    @Column(name = "\"Date\"", nullable = false)
-    private LocalDate date;
+    @Column(name = "Serial", nullable = false)
+    private Integer serial;
+
+    @NotNull
+    @Column(name = "Stage_NB", nullable = false)
+    private Integer stageNb;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Payroll_Item_ID", nullable = false)
-    private PayrollItem payrollItem;
+    @JoinColumn(name = "Stage_Product_ID", nullable = false)
+    private Product stageProduct;
 
     @NotNull
-    @Column(name = "Amount", nullable = false)
-    private Double amount;
+    @Column(name = "Mandatory_Replacement", nullable = false)
+    private Boolean mandatoryReplacement = false;
+
+    @NotNull
+    @Column(name = "Replacment_Months", nullable = false)
+    private Integer replacmentMonths;
 
     @Size(max = 1000)
     @Nationalized
