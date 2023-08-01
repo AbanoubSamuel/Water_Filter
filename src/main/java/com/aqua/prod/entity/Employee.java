@@ -57,7 +57,7 @@ public class Employee {
     private LocalDate hiringDate;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Department_ID", nullable = false)
     private Department department;
 
