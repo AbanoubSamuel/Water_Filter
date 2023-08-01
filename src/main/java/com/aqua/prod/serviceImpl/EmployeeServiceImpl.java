@@ -7,8 +7,10 @@ import com.aqua.prod.entity.Employee;
 import com.aqua.prod.entity.User;
 import com.aqua.prod.exception.UserExistsException;
 import com.aqua.prod.service.EmployeeService;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private UserServiceImpl userService;
