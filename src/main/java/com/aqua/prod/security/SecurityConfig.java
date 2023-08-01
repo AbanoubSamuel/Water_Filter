@@ -10,8 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
-import static com.aqua.prod.security.SecurityConstants.LOGIN_PATH;
-import static com.aqua.prod.security.SecurityConstants.REGISTER_PATH;
+import static com.aqua.prod.security.SecurityConstants.*;
 
 @AllArgsConstructor
 @Configuration
@@ -25,7 +24,7 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtRequestFilter, AuthorizationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(LOGIN_PATH, REGISTER_PATH).permitAll()
+                        .requestMatchers(LOGIN, REGISTER).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return httpSecurity.build();
