@@ -1,4 +1,4 @@
-package com.aqua.prod.wrapper;
+package com.aqua.prod.dto;
 
 import com.aqua.prod.dto.EmployeeDto;
 import com.aqua.prod.dto.RegisterDto;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EmployeeWrapper {
+public class UserEmployeeDto {
     private RegisterDto user;
     private EmployeeDto employee;
 }
