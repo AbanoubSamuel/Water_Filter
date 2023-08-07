@@ -2,16 +2,13 @@ package com.aqua.prod.serviceImpl;
 
 import com.aqua.prod.datarest.EmployeeRepo;
 import com.aqua.prod.datarest.UserRepo;
-import com.aqua.prod.dto.EmployeeDto;
 import com.aqua.prod.dto.LoginDto;
 import com.aqua.prod.dto.RegisterDto;
-import com.aqua.prod.dto.UserDto;
-import com.aqua.prod.entity.Employee;
+import com.aqua.prod.dto.UserUpdateDto;
 import com.aqua.prod.entity.User;
 import com.aqua.prod.exception.UserExistsException;
 import com.aqua.prod.service.UserService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -62,11 +59,11 @@ public class UserServiceImpl implements UserService {
         return userRepo.save(user);
     }
 
-    public UserDto updateUserProfile(User user, UserDto userDto) throws Exception
+    public UserUpdateDto updateUserProfile(User user, UserUpdateDto userUpdateDto) throws Exception
     {
-        userDto.setPassword(encryptionService.encryptPassword(userDto.getPassword()));
-        userRepo.save(UserDto.convertDtoToUser(user, userDto));
-        return userDto;
+        userUpdateDto.setPassword(encryptionService.encryptPassword(userUpdateDto.getPassword()));
+        userRepo.save(UserUpdateDto.convertDtoToUser(user, userUpdateDto));
+        return userUpdateDto;
 
     }
 }
