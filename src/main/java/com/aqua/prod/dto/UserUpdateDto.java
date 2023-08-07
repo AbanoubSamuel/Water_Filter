@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 
 @Data
-public class UserDto implements Serializable {
+public class UserUpdateDto implements Serializable {
     @NotNull
     @Size(max = 100)
     private String userName;
@@ -36,16 +36,16 @@ public class UserDto implements Serializable {
     @Size(max = 500)
     private String description;
 
-    public static User convertDtoToUser(User user, UserDto userDto)
+    public static User convertDtoToUser(User user, UserUpdateDto userUpdateDto)
     {
-        user.setUserName(userDto.getUserName());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setImage(userDto.getImage());
-        user.setDescription(userDto.getDescription());
+        user.setUserName(userUpdateDto.getUserName());
+        user.setFirstName(userUpdateDto.getFirstName());
+        user.setLastName(userUpdateDto.getLastName());
+        user.setEmail(userUpdateDto.getEmail());
+        user.setPassword(userUpdateDto.getPassword());
+        user.setPhoneNumber(userUpdateDto.getPhoneNumber());
+        user.setImage(userUpdateDto.getImage());
+        user.setDescription(userUpdateDto.getDescription());
 
         return user;
     }

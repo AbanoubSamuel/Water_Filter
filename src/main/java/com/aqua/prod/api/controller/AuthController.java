@@ -3,7 +3,7 @@ package com.aqua.prod.api.controller;
 import com.aqua.prod.dto.JsonResponse;
 import com.aqua.prod.dto.LoginDto;
 import com.aqua.prod.dto.RegisterDto;
-import com.aqua.prod.dto.UserDto;
+import com.aqua.prod.dto.UserUpdateDto;
 import com.aqua.prod.entity.User;
 import com.aqua.prod.exception.UserExistsException;
 import com.aqua.prod.serviceImpl.UserServiceImpl;
@@ -31,7 +31,7 @@ public class AuthController {
         User user = userService.register(registerDto);
         JsonResponse<User> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
-        jsonResponse.setMessage("Registered succssfully");
+        jsonResponse.setMessage("Registered successfully");
         jsonResponse.setData(user);
         return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(201));
     }
@@ -66,10 +66,10 @@ public class AuthController {
 
 
     @PutMapping("/update")
-    public ResponseEntity<JsonResponse<UserDto>> updateUserProfile(@AuthenticationPrincipal User user, @RequestBody UserDto userDto) throws Exception
+    public ResponseEntity<JsonResponse<UserUpdateDto>> updateUserProfile(@AuthenticationPrincipal User user, @RequestBody UserUpdateDto userUpdateDto) throws Exception
     {
-        UserDto updatedUser = userService.updateUserProfile(user, userDto);
-        JsonResponse<UserDto> jsonResponse = new JsonResponse<>();
+        UserUpdateDto updatedUser = userService.updateUserProfile(user, userUpdateDto);
+        JsonResponse<UserUpdateDto> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
         jsonResponse.setMessage("User updated successfully");
         jsonResponse.setData(updatedUser);

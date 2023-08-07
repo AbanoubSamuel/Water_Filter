@@ -7,7 +7,7 @@ import com.aqua.prod.dto.RegisterDto;
 import com.aqua.prod.entity.Employee;
 import com.aqua.prod.exception.UserExistsException;
 import com.aqua.prod.serviceImpl.EmployeeServiceImpl;
-import com.aqua.prod.wrapper.EmployeeWrapper;
+import com.aqua.prod.dto.UserEmployeeDto;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,10 +28,10 @@ public class EmployeeController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<JsonResponse<Employee>> createEmployee(@AuthenticationPrincipal  @Validated @RequestBody EmployeeWrapper employeeWrapper) throws UserExistsException
+    public ResponseEntity<JsonResponse<Employee>> createEmployee(@AuthenticationPrincipal  @Validated @RequestBody UserEmployeeDto userEmployeeDto) throws UserExistsException
     {
-        RegisterDto registerDto = employeeWrapper.getUser();
-        EmployeeDto employeeDto = employeeWrapper.getEmployee();
+        RegisterDto registerDto = userEmployeeDto.getUser();
+        EmployeeDto employeeDto = userEmployeeDto.getEmployee();
         Employee employee = employeeService.createUserAndEmployee(registerDto, employeeDto);
         JsonResponse<Employee> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
