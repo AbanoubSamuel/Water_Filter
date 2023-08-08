@@ -13,6 +13,7 @@ import org.hibernate.annotations.Nationalized;
 @Table(name = "Products_Stages")
 public class ProductsStage {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
@@ -31,8 +32,13 @@ public class ProductsStage {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Stage_Product_ID", nullable = false)
-    private Product stageProduct;
+    @JoinColumn(name = "Stage_Type_ID", nullable = false)
+    private ProductsStagesType stageType;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "Stage_Item_ID", nullable = false)
+    private Product stageItem;
 
     @NotNull
     @Column(name = "Mandatory_Replacement", nullable = false)

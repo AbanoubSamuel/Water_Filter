@@ -15,6 +15,7 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import static com.aqua.prod.security.SecurityConstants.*;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @AllArgsConstructor
 @Configuration
@@ -24,15 +25,13 @@ public class SecurityConfig {
     private final JWTRequestFilter jwtRequestFilter;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
-    {
-        http.csrf(AbstractHttpConfigurer::disable)
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtRequestFilter, AuthorizationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(LOGIN, REGISTER).permitAll()
                         .anyRequest().authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        return http.build();
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).build();
     }
 }

@@ -15,6 +15,7 @@ import java.time.Instant;
 @Table(name = "Users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
@@ -83,12 +84,12 @@ public class User {
     private byte[] image;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "User_Type_ID", nullable = false)
-    private UserType userType;
+    private UsersType userType;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
 

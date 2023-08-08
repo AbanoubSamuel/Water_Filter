@@ -42,14 +42,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                 String username = jwtService.getUserName(token);
                 Optional<User> optionalUser = userRepo.findByUserNameIgnoreCase(username);
                 if (optionalUser.isPresent()) {
-                    User user = optionalUser.get();
-                    String roleName = user.getUserType().getRole().getName(); // Get the role name from the user entity
-                    // Create a SimpleGrantedAuthority using the role name
-                    GrantedAuthority authority = new SimpleGrantedAuthority(roleName);
-                    // Create a list of authorities (roles) for the user
-                    List<GrantedAuthority> authorities = Collections.singletonList(authority);
-
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+                    UsernamePasswordAuthenticationToken authentication = getUsernamePasswordAuthenticationToken(optionalUser);
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
@@ -59,5 +52,16 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
 
+    }
+
+    private static UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(Optional<User> optionalUser) {
+        User user = optionalUser.get();
+        String roleName = user.getUserType().getRole().getName(); // Get the role name from the user entity
+        // Create a SimpleGrantedAuthority using the role name
+        GrantedAuthority authority = new SimpleGrantedAuthority(roleName);
+        // Create a list of authorities (roles) for the user
+        List<GrantedAuthority> authorities = Collections.singletonList(authority);
+
+        return new UsernamePasswordAuthenticationToken(user, null, authorities);
     }
 }
