@@ -29,10 +29,9 @@ public class StatusServiceImpl implements StatusService {
         return statusRepo.save(status);
     }
 
-    public Boolean checkStatusByName(String name)
+    public Optional<Status> checkStatusByName(String name)
     {
-        Optional<Status> statusExists = statusRepo.getStatusByName(name);
-        return statusExists.isPresent();
+        return statusRepo.getStatusByName(name);
     }
 
     public Status updateStatus(Long statusId, UpdateStatusDto updateStatusDto)

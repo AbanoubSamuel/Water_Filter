@@ -9,6 +9,7 @@ import com.aqua.prod.serviceImpl.StatusServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -24,17 +25,19 @@ public class StatusController {
     }
 
     @PostMapping()
-    public ResponseEntity createStatus(@Valid @RequestBody CreateStatusDto createStatusDto)
+    public ResponseEntity createStatus(
+            @Valid
+            @RequestBody CreateStatusDto createStatusDto)
     {
-        Boolean statusExists = statusService.checkStatusByName(createStatusDto.getName());
-        if (statusExists) {
+        Optional<Status> statusExists = statusService.checkStatusByName(createStatusDto.getName());
+        if (statusExists.isPresent()) {
             JsonResponse jsonResponse = new JsonResponse();
             jsonResponse.setStatus(false);
             jsonResponse.setMessage("Status already exists");
             return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(409));
         }
 
-
+        //// Create new status ////
         Status status = statusService.createStatus(createStatusDto);
         JsonResponse<Status> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
@@ -44,7 +47,9 @@ public class StatusController {
     }
 
     @PutMapping("/{statusId}")
-    public ResponseEntity<JsonResponse<Status>> updateStatus(@Valid @PathVariable Long statusId, @Valid @RequestBody UpdateStatusDto updateStatusDto)
+    public ResponseEntity<JsonResponse<Status>> updateStatus(
+            @Valid @PathVariable Long statusId,
+            @Valid @RequestBody UpdateStatusDto updateStatusDto)
     {
         Status updatedStatus = statusService.updateStatus(statusId, updateStatusDto);
         JsonResponse<Status> jsonResponse = new JsonResponse<>();
@@ -55,14 +60,24 @@ public class StatusController {
         return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<JsonResponse> getStatus(@Valid @PathVariable Long id)
+    @GetMapping()
+    @PreAuthorize("('ROLE_admin')")
+    public ResponseEntity<JsonResponse<Optional<Status>>> getStatus(@Valid @RequestParam("statusId") Long statusId)
     {
-        Optional<Status> status = statusService.getStatusById(id);
-        JsonResponse<Object> jsonResponse = new JsonResponse<>();
-        jsonResponse.setStatus(true);
-        jsonResponse.setMessage("Get Status By Id");
-        jsonResponse.setData(status);
-        return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
+        Optional<Status> status = statusService.getStatusById(statusId);
+
+        if (status.isPresent()) {
+            JsonResponse<Optional<Status>> jsonResponse = new JsonResponse<>();
+            jsonResponse.setStatus(true);
+            jsonResponse.setMessage("Fetched status successfully");
+            jsonResponse.setData(status);
+            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
+        } else {
+            JsonResponse<Optional<Status>> jsonResponse = new JsonResponse<>();
+            jsonResponse.setStatus(false);
+            jsonResponse.setMessage("Status not found with " + statusId + " id");
+            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(404));
+        }
+
     }
 }

@@ -6,8 +6,9 @@ import com.aqua.prod.dto.CreatePositionDto;
 import com.aqua.prod.entity.Position;
 import com.aqua.prod.service.PositionService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class PositionServiceImpl implements PositionService {
     private PositionRepo positionRepo;
     private StatusRepo statusRepo;
