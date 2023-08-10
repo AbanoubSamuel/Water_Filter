@@ -11,7 +11,7 @@ import org.hibernate.annotations.Nationalized;
 @Setter
 @Entity
 @Table(name = "Users_Types")
-public class UsersType {
+public class UserType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
@@ -24,9 +24,9 @@ public class UsersType {
     private String name;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Role_ID", nullable = false)
-    private UsersRole role;
+    private UserRole role;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
