@@ -8,10 +8,10 @@
         <version>3.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>aqua</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>aqua</name>
+    <groupId>com.oneclick</groupId>
+    <artifactId>bestAqua</artifactId>
+    <version>1.0.0</version>
+    <name>bestAqua</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>17</java.version>
@@ -72,11 +72,13 @@
     </dependencies>
 
     <build>
+        <finalName>BestAqua</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <executable>true</executable>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

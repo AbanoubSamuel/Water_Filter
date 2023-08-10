@@ -25,13 +25,13 @@ public class StatusController {
     }
 
     @PostMapping()
-    public ResponseEntity createStatus(
+    public ResponseEntity<JsonResponse<Status>> createStatus(
             @Valid
             @RequestBody CreateStatusDto createStatusDto)
     {
         Optional<Status> statusExists = statusService.checkStatusByName(createStatusDto.getName());
         if (statusExists.isPresent()) {
-            JsonResponse jsonResponse = new JsonResponse();
+            JsonResponse<Status> jsonResponse = new JsonResponse<>();
             jsonResponse.setStatus(false);
             jsonResponse.setMessage("Status already exists");
             return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(409));
