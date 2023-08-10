@@ -13,6 +13,7 @@ import org.hibernate.annotations.Nationalized;
 @Table(name = "Customers")
 public class Customer {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 

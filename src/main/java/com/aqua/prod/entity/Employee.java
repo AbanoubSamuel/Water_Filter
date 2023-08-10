@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @Table(name = "Employees")
 public class Employee {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
@@ -38,7 +39,7 @@ public class Employee {
     private String nationalNb;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Gender_ID", nullable = false)
     private Gender gender;
 
@@ -57,12 +58,12 @@ public class Employee {
     private LocalDate hiringDate;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Department_ID", nullable = false)
     private Department department;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Position_ID", nullable = false)
     private Position position;
 
@@ -75,12 +76,12 @@ public class Employee {
     @JoinColumn(name = "Attendance_Type_ID", nullable = false)
     private AttendanceType attendanceType;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "User_ID")
     private User user;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
 
@@ -91,4 +92,5 @@ public class Employee {
     @Nationalized
     @Column(name = "Remarks", length = 1000)
     private String remarks;
+
 }

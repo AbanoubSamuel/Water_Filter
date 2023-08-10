@@ -13,8 +13,15 @@ import org.hibernate.annotations.Nationalized;
 @Table(name = "Installments_Types")
 public class InstallmentsType {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
+
+    @Size(max = 200)
+    @NotNull
+    @Nationalized
+    @Column(name = "Name", nullable = false, length = 200)
+    private String name;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

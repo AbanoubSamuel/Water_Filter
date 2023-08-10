@@ -10,9 +10,10 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "Products_Installment_Matrix")
-public class ProductInstallmentMatrix {
+@Table(name = "Products_Installment_Types_Matrix")
+public class ProductsInstallmentTypesMatrix {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
