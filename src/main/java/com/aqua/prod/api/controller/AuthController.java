@@ -7,11 +7,11 @@ import com.aqua.prod.dto.UserUpdateDto;
 import com.aqua.prod.entity.User;
 import com.aqua.prod.exception.UserExistsException;
 import com.aqua.prod.serviceImpl.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<JsonResponse<User>> register(@Validated @RequestBody RegisterDto registerDto) throws UserExistsException
+    public ResponseEntity<JsonResponse<User>> register(@Valid @RequestBody RegisterDto registerDto) throws UserExistsException
     {
         User user = userService.register(registerDto);
         JsonResponse<User> jsonResponse = new JsonResponse<>();
@@ -37,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JsonResponse<String>> login(@Validated @RequestBody LoginDto loginDto)
+    public ResponseEntity<JsonResponse<String>> login(@Valid @RequestBody LoginDto loginDto)
     {
         JsonResponse<String> jsonResponse = new JsonResponse<>();
         String jwtToken = userService.login(loginDto);

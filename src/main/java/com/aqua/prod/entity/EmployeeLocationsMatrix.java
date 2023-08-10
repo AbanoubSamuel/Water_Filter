@@ -15,7 +15,6 @@ import java.time.Instant;
 @Table(name = "Employee_Locations_Matrix")
 public class EmployeeLocationsMatrix {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 

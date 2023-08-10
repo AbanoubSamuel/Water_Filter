@@ -8,6 +8,8 @@ import com.aqua.prod.service.StatusService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class StatusServiceImpl implements StatusService {
     private StatusRepo statusRepo;
@@ -27,15 +29,25 @@ public class StatusServiceImpl implements StatusService {
         return statusRepo.save(status);
     }
 
+    public Boolean checkStatusByName(String name)
+    {
+        Optional<Status> statusExists = statusRepo.getStatusByName(name);
+        return statusExists.isPresent();
+    }
+
     public Status updateStatus(Long statusId, UpdateStatusDto updateStatusDto)
     {
-        Status existingStatus = statusRepo.findById(statusId)
+        Status status = statusRepo.findById(statusId)
                 .orElseThrow(() -> new EntityNotFoundException("Status not found"));
+        status.setName(updateStatusDto.getName());
+        status.setIsActive(updateStatusDto.getIsActive());
+        status.setDescription(updateStatusDto.getDescription());
 
-        existingStatus.setName(updateStatusDto.getName());
-        existingStatus.setIsActive(updateStatusDto.getIsActive());
-        existingStatus.setDescription(updateStatusDto.getDescription());
+        return statusRepo.save(status);
+    }
 
-        return statusRepo.save(existingStatus);
+    public Optional<Status> getStatusById(Long statusId)
+    {
+        return statusRepo.findById(statusId);
     }
 }
