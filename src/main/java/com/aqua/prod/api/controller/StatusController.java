@@ -9,9 +9,9 @@ import com.aqua.prod.serviceImpl.StatusServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/status")
@@ -23,10 +23,18 @@ public class StatusController {
         this.statusService = statusService;
     }
 
-    @PostMapping("/")
-    public ResponseEntity<JsonResponse<Status>> createStatus(@AuthenticationPrincipal @Validated @RequestBody CreateStatusDto createStatusDto)
+    @PostMapping()
+    public ResponseEntity createStatus(@Valid @RequestBody CreateStatusDto createStatusDto)
     {
-        System.out.println("Status");
+        Boolean statusExists = statusService.checkStatusByName(createStatusDto.getName());
+        if (statusExists) {
+            JsonResponse jsonResponse = new JsonResponse();
+            jsonResponse.setStatus(false);
+            jsonResponse.setMessage("Status already exists");
+            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(409));
+        }
+
+
         Status status = statusService.createStatus(createStatusDto);
         JsonResponse<Status> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
@@ -36,7 +44,7 @@ public class StatusController {
     }
 
     @PutMapping("/{statusId}")
-    public ResponseEntity<JsonResponse<Status>> updateStatus(@Validated @PathVariable Long statusId, @Valid @RequestBody UpdateStatusDto updateStatusDto)
+    public ResponseEntity<JsonResponse<Status>> updateStatus(@Valid @PathVariable Long statusId, @Valid @RequestBody UpdateStatusDto updateStatusDto)
     {
         Status updatedStatus = statusService.updateStatus(statusId, updateStatusDto);
         JsonResponse<Status> jsonResponse = new JsonResponse<>();
@@ -47,12 +55,14 @@ public class StatusController {
         return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/get")
-    public ResponseEntity<JsonResponse> getStatus()
+    @GetMapping("/{id}")
+    public ResponseEntity<JsonResponse> getStatus(@Valid @PathVariable Long id)
     {
+        Optional<Status> status = statusService.getStatusById(id);
         JsonResponse<Object> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
-        jsonResponse.setMessage("Status controller");
+        jsonResponse.setMessage("Get Status By Id");
+        jsonResponse.setData(status);
         return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
     }
 }
