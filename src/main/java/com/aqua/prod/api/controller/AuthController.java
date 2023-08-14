@@ -6,6 +6,7 @@ import com.aqua.prod.dto.RegisterDto;
 import com.aqua.prod.dto.UserUpdateDto;
 import com.aqua.prod.entity.User;
 import com.aqua.prod.exception.UserExistsException;
+import com.aqua.prod.service.UserService;
 import com.aqua.prod.serviceImpl.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
-    public AuthController(UserServiceImpl userService)
+    public AuthController(UserService userService)
     {
         this.userService = userService;
     }
@@ -52,7 +53,6 @@ public class AuthController {
             return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
         }
     }
-
 
     @GetMapping("/me")
     public ResponseEntity<JsonResponse<User>> getLoggedInUserProfile(@AuthenticationPrincipal User user)

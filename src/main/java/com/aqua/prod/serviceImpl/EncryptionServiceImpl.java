@@ -18,11 +18,13 @@ public class EncryptionServiceImpl implements EncryptionService {
         salt = BCrypt.gensalt(saltRounds);
     }
 
+    @Override
     public String encryptPassword(String password)
     {
         return BCrypt.hashpw(password, salt);
     }
 
+    @Override
     public boolean verifyPassword(String password, String hash)
     {
         return BCrypt.checkpw(password, hash);

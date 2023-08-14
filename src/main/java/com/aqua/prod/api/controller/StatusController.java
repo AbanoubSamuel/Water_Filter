@@ -5,6 +5,7 @@ import com.aqua.prod.dto.CreateStatusDto;
 import com.aqua.prod.dto.JsonResponse;
 import com.aqua.prod.dto.UpdateStatusDto;
 import com.aqua.prod.entity.Status;
+import com.aqua.prod.service.StatusService;
 import com.aqua.prod.serviceImpl.StatusServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatusCode;
@@ -17,18 +18,16 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/status")
 public class StatusController {
-    private final StatusServiceImpl statusService;
+    private final StatusService statusService;
 
-    public StatusController(StatusServiceImpl statusService)
-    {
+    public StatusController(StatusService statusService) {
         this.statusService = statusService;
     }
 
     @PostMapping()
     public ResponseEntity<JsonResponse<Status>> createStatus(
             @Valid
-            @RequestBody CreateStatusDto createStatusDto)
-    {
+            @RequestBody CreateStatusDto createStatusDto) {
         Optional<Status> statusExists = statusService.checkStatusByName(createStatusDto.getName());
         if (statusExists.isPresent()) {
             JsonResponse<Status> jsonResponse = new JsonResponse<>();
@@ -49,8 +48,7 @@ public class StatusController {
     @PutMapping("/{statusId}")
     public ResponseEntity<JsonResponse<Status>> updateStatus(
             @Valid @PathVariable Long statusId,
-            @Valid @RequestBody UpdateStatusDto updateStatusDto)
-    {
+            @Valid @RequestBody UpdateStatusDto updateStatusDto) {
         Status updatedStatus = statusService.updateStatus(statusId, updateStatusDto);
         JsonResponse<Status> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
@@ -62,8 +60,7 @@ public class StatusController {
 
     @GetMapping()
     @PreAuthorize("('ROLE_admin')")
-    public ResponseEntity<JsonResponse<Optional<Status>>> getStatus(@Valid @RequestParam("statusId") Long statusId)
-    {
+    public ResponseEntity<JsonResponse<Optional<Status>>> getStatus(@Valid @RequestParam("statusId") Long statusId) {
         Optional<Status> status = statusService.getStatusById(statusId);
 
         if (status.isPresent()) {

@@ -14,13 +14,12 @@ import java.util.Optional;
 public class StatusServiceImpl implements StatusService {
     private StatusRepo statusRepo;
 
-    public StatusServiceImpl(StatusRepo statusRepo)
-    {
+    public StatusServiceImpl(StatusRepo statusRepo) {
         this.statusRepo = statusRepo;
     }
 
-    public Status createStatus(CreateStatusDto createStatusDto)
-    {
+    @Override
+    public Status createStatus(CreateStatusDto createStatusDto) {
         Status status = new Status();
         status.setName(createStatusDto.getName());
         status.setIsActive(createStatusDto.getIsActive());
@@ -29,13 +28,13 @@ public class StatusServiceImpl implements StatusService {
         return statusRepo.save(status);
     }
 
-    public Optional<Status> checkStatusByName(String name)
-    {
+    @Override
+    public Optional<Status> checkStatusByName(String name) {
         return statusRepo.getStatusByName(name);
     }
 
-    public Status updateStatus(Long statusId, UpdateStatusDto updateStatusDto)
-    {
+    @Override
+    public Status updateStatus(Long statusId, UpdateStatusDto updateStatusDto) {
         Status status = statusRepo.findById(statusId)
                 .orElseThrow(() -> new EntityNotFoundException("Status not found"));
         status.setName(updateStatusDto.getName());
@@ -45,8 +44,8 @@ public class StatusServiceImpl implements StatusService {
         return statusRepo.save(status);
     }
 
-    public Optional<Status> getStatusById(Long statusId)
-    {
+    @Override
+    public Optional<Status> getStatusById(Long statusId) {
         return statusRepo.findById(statusId);
     }
 }

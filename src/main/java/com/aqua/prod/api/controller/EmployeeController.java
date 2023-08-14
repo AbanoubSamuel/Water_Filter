@@ -6,6 +6,7 @@ import com.aqua.prod.dto.JsonResponse;
 import com.aqua.prod.dto.RegisterDto;
 import com.aqua.prod.entity.Employee;
 import com.aqua.prod.exception.UserExistsException;
+import com.aqua.prod.service.EmployeeService;
 import com.aqua.prod.serviceImpl.EmployeeServiceImpl;
 import com.aqua.prod.dto.UserEmployeeDto;
 import org.springframework.http.HttpStatusCode;
@@ -20,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
-    private final EmployeeServiceImpl employeeService;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeServiceImpl employeeService)
+    public EmployeeController(EmployeeService employeeService)
     {
         this.employeeService = employeeService;
     }

@@ -33,6 +33,7 @@ public class JWTServiceImpl implements JWTService {
         algorithm = Algorithm.HMAC256(algorithmKey);
     }
 
+    @Override
     public String generateJWT(User user)
     {
         int expiryInDays = 7;
@@ -48,6 +49,7 @@ public class JWTServiceImpl implements JWTService {
                 .sign(algorithm);
     }
 
+    @Override
     public String getUserName(String token)
     {
         DecodedJWT jwt = JWT.require(algorithm).withIssuer(issuer).build().verify(token);
