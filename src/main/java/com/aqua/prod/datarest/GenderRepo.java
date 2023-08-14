@@ -1,7 +1,9 @@
 package com.aqua.prod.datarest;
 
+import com.aqua.prod.common.GenericRepo;
 import com.aqua.prod.entity.Gender;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface GenderRepo extends CrudRepository<Gender, Long> {
+@Repository
+public interface GenderRepo extends GenericRepo<Gender, Long> {
 }

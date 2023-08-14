@@ -4,19 +4,20 @@ import com.aqua.prod.common.GenericRepo;
 import com.aqua.prod.common.Mapper;
 import com.aqua.prod.common.GenericService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class GenericServiceImpl<T, D> implements GenericService<T, D> {
-    private final GenericRepo<T> repository;
+    private final GenericRepo<T,Integer> repository;
     private final Mapper<T, D> mapper;
 
-    @Autowired
-    public GenericServiceImpl(GenericRepo<T> repository, Mapper<T, D> mapper) {
+    public GenericServiceImpl(GenericRepo<T,Integer> repository, Mapper<T, D> mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -41,10 +42,10 @@ public class GenericServiceImpl<T, D> implements GenericService<T, D> {
         repository.deleteById(id);
     }
 
-    @Override
-    public Optional<T> checkEntityByName(String name) {
-        return repository.getEntityByName(name);
-    }
+//    @Override
+//    public Optional<T> checkEntityByName(String name) {
+//        return repository.findBy();
+//    }
 
     @Override
     public T update(int statusId, D dto) {

@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/position")
 public class PositionController {
 
-    private PositionService positionService;
-    private StatusService statusService;
-    public PositionController(PositionService positionService, StatusService statusService)
-    {
-        this.positionService = positionService;
-        this.statusService = statusService;
-    }
-
-    public ResponseEntity<JsonResponse> createPosition(CreatePositionDto createPositionDto)
-    {
-
-        return null;
-    }
+//    private PositionService positionService;
+//    private StatusService statusService;
+//    public PositionController(PositionService positionService, StatusService statusService)
+//    {
+//        this.positionService = positionService;
+//        this.statusService = statusService;
+//    }
+//
+//    public ResponseEntity<JsonResponse> createPosition(CreatePositionDto createPositionDto)
+//    {
+//
+//        return null;
+//    }
 }

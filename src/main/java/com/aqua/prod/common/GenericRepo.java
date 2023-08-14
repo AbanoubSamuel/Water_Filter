@@ -1,14 +1,12 @@
 package com.aqua.prod.common;
 
-import com.aqua.prod.entity.Status;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
-@NoRepositoryBean
-public interface GenericRepo<T> extends JpaRepository<T, Integer> {
-    Optional<T> getEntityByName(String name);
-
+@Repository
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+public interface GenericRepo<T,ID> extends JpaRepository<T, ID> {
+    public T handleCustom(String id);
 }

@@ -14,8 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/country")
@@ -29,15 +31,6 @@ public class CountryController {
 
     @PostMapping()
     public ResponseEntity<JsonResponse<Country>> createCountry(@Valid @RequestBody CountryDto dto) {
-        Optional<Country> statusExists = service.checkEntityByName(dto.getName());
-        if (statusExists.isPresent()) {
-            JsonResponse<Country> jsonResponse = new JsonResponse<>();
-            jsonResponse.setStatus(false);
-            jsonResponse.setMessage("Country already exists");
-            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(409));
-        }
-
-        //// Create new country ////
         Country country = service.save(dto);
         JsonResponse<Country> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
@@ -59,15 +52,19 @@ public class CountryController {
 
     @GetMapping()
     public ResponseEntity<JsonResponse<List<CountryDto>>> getAllCountries() {
-        List<CountryDto> status = service.getAll().stream().map(country -> {
-            CountryMapper countryMapper = new CountryMapper();
-            return countryMapper.fromEntityToDto(country);
-        }).toList();
+
+        var data = service.getAll();
+        data.forEach(country -> System.out.println(country.getName()));
+
+//        List<CountryDto> countryDtos = service.getAll().stream().map(country -> {
+//            CountryMapper countryMapper = new CountryMapper(); // Create instance of CountryMapper
+//            return countryMapper.fromEntityToDto(country);
+//        }).toList();
 
         JsonResponse<List<CountryDto>> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
         jsonResponse.setMessage("Fetched Country successfully");
-        jsonResponse.setData(status);
+        jsonResponse.setData(new ArrayList<>());
         return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
 
 

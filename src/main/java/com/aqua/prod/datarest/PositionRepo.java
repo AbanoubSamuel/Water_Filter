@@ -1,7 +1,9 @@
 package com.aqua.prod.datarest;
 
+import com.aqua.prod.common.GenericRepo;
 import com.aqua.prod.entity.Position;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PositionRepo extends JpaRepository<Position, Integer> {
+@Repository
+public interface PositionRepo extends GenericRepo<Position, Integer> {
 }
