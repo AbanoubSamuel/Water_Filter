@@ -25,9 +25,7 @@ public class StatusController {
     }
 
     @PostMapping()
-    public ResponseEntity<JsonResponse<Status>> createStatus(
-            @Valid
-            @RequestBody CreateStatusDto createStatusDto) {
+    public ResponseEntity<JsonResponse<Status>> createStatus(@Valid @RequestBody CreateStatusDto createStatusDto) {
         Optional<Status> statusExists = statusService.checkStatusByName(createStatusDto.getName());
         if (statusExists.isPresent()) {
             JsonResponse<Status> jsonResponse = new JsonResponse<>();
