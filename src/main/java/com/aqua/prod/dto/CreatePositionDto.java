@@ -16,7 +16,7 @@ public class CreatePositionDto implements Serializable {
     @Size(max = 200)
     String name;
     @NotNull
-    Long statusId;
+    Integer statusId;
     @Size(max = 1000)
     String description;
 }

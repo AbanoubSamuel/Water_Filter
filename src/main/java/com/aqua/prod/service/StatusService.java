@@ -10,7 +10,7 @@ public interface StatusService {
 
     Optional<Status> checkStatusByName(String name);
 
-    Status updateStatus(Long statusId, StatusDto statusDto);
+    Status updateStatus(Integer statusId, StatusDto statusDto);
 
-    Optional<Status> getStatusById(Long statusId);
+    Optional<Status> getStatusById(Integer statusId);
 }

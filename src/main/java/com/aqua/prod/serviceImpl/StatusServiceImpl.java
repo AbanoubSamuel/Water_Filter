@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class StatusServiceImpl implements StatusService {
-    private StatusRepo statusRepo;
+    private final StatusRepo statusRepo;
 
     public StatusServiceImpl(StatusRepo statusRepo)
     {
@@ -35,7 +35,7 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public Status updateStatus(Long statusId, StatusDto statusDto)
+    public Status updateStatus(Integer statusId, StatusDto statusDto)
     {
         Status status = statusRepo.findById(statusId)
                 .orElseThrow(() -> new EntityNotFoundException("Status not found"));
@@ -47,7 +47,7 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public Optional<Status> getStatusById(Long statusId)
+    public Optional<Status> getStatusById(Integer statusId)
     {
         return statusRepo.findById(statusId);
     }

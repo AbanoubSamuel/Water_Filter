@@ -47,7 +47,7 @@ public class StatusController {
 
     @PutMapping("/{statusId}")
     public ResponseEntity<JsonResponse<Status>> updateStatus(
-            @Valid @PathVariable Long statusId,
+            @Valid @PathVariable Integer statusId,
             @Valid @RequestBody StatusDto statusDto)
     {
         Status updatedStatus = statusService.updateStatus(statusId, statusDto);
@@ -61,7 +61,7 @@ public class StatusController {
 
     @GetMapping()
     @PreAuthorize("('ROLE_admin')")
-    public ResponseEntity<JsonResponse<Optional<Status>>> getStatus(@Valid @RequestParam("statusId") Long statusId)
+    public ResponseEntity<JsonResponse<Optional<Status>>> getStatus(@Valid @RequestParam("statusId") Integer statusId)
     {
         Optional<Status> status = statusService.getStatusById(statusId);
 

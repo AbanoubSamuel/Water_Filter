@@ -34,6 +34,6 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public Optional<Position> checkPositionByName(String name)
     {
-        return Optional.empty();
+        return positionRepo.findByNameIgnoreCase(name);
     }
 }
