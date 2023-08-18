@@ -66,18 +66,16 @@ public class StatusController {
     {
         Optional<Status> status = statusService.getStatusById(statusId);
 
+        JsonResponse<Optional<Status>> jsonResponse = new JsonResponse<>();
         if (status.isPresent()) {
-            JsonResponse<Optional<Status>> jsonResponse = new JsonResponse<>();
             jsonResponse.setStatus(true);
             jsonResponse.setMessage("Fetched status successfully");
             jsonResponse.setData(status);
             return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
         } else {
-            JsonResponse<Optional<Status>> jsonResponse = new JsonResponse<>();
             jsonResponse.setStatus(false);
             jsonResponse.setMessage("Status not found with " + statusId + " id");
             return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(404));
         }
-
     }
 }
