@@ -3,8 +3,8 @@ package com.aqua.prod.api.controller;
 
 import com.aqua.prod.dto.CreatePositionDto;
 import com.aqua.prod.dto.JsonResponse;
-import com.aqua.prod.serviceImpl.PositionServiceImpl;
-import com.aqua.prod.serviceImpl.StatusServiceImpl;
+import com.aqua.prod.service.PositionService;
+import com.aqua.prod.service.StatusService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/position")
 public class PositionController {
 
-    private PositionServiceImpl positionService;
-    private StatusServiceImpl statusService;
-    public PositionController(PositionServiceImpl positionService, StatusServiceImpl statusService)
+    private PositionService positionService;
+    private StatusService statusService;
+
+    public PositionController(PositionService positionService, StatusService statusService)
     {
         this.positionService = positionService;
         this.statusService = statusService;
@@ -25,7 +26,7 @@ public class PositionController {
 
     public ResponseEntity<JsonResponse> createPosition(CreatePositionDto createPositionDto)
     {
-
+        JsonResponse jsonResponse = new JsonResponse();
         return null;
     }
 }

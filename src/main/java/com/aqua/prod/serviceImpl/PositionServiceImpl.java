@@ -8,6 +8,8 @@ import com.aqua.prod.service.PositionService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PositionServiceImpl implements PositionService {
     private PositionRepo positionRepo;
@@ -27,5 +29,11 @@ public class PositionServiceImpl implements PositionService {
                 .orElseThrow(() -> new EntityNotFoundException("Status not found")));
         position.setDescription(createPositionDto.getDescription());
         return positionRepo.save(position);
+    }
+
+    @Override
+    public Optional<Position> checkPositionByName(String name)
+    {
+        return Optional.empty();
     }
 }

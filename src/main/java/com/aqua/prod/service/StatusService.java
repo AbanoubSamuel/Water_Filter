@@ -1,5 +1,16 @@
 package com.aqua.prod.service;
 
-public interface StatusService {
+import com.aqua.prod.dto.StatusDto;
+import com.aqua.prod.entity.Status;
 
+import java.util.Optional;
+
+public interface StatusService {
+    Status createStatus(StatusDto statusDto);
+
+    Optional<Status> checkStatusByName(String name);
+
+    Status updateStatus(Long statusId, StatusDto statusDto);
+
+    Optional<Status> getStatusById(Long statusId);
 }

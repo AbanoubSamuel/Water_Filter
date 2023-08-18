@@ -1,8 +1,7 @@
 package com.aqua.prod.serviceImpl;
 
 import com.aqua.prod.datarest.StatusRepo;
-import com.aqua.prod.dto.CreateStatusDto;
-import com.aqua.prod.dto.UpdateStatusDto;
+import com.aqua.prod.dto.StatusDto;
 import com.aqua.prod.entity.Status;
 import com.aqua.prod.service.StatusService;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,12 +18,13 @@ public class StatusServiceImpl implements StatusService {
         this.statusRepo = statusRepo;
     }
 
-    public Status createStatus(CreateStatusDto createStatusDto)
+    @Override
+    public Status createStatus(StatusDto statusDto)
     {
         Status status = new Status();
-        status.setName(createStatusDto.getName());
-        status.setIsActive(createStatusDto.getIsActive());
-        status.setDescription(createStatusDto.getDescription());
+        status.setName(statusDto.getName());
+        status.setIsActive(statusDto.getIsActive());
+        status.setDescription(statusDto.getDescription());
         statusRepo.save(status);
         return statusRepo.save(status);
     }
@@ -34,17 +34,19 @@ public class StatusServiceImpl implements StatusService {
         return statusRepo.getStatusByName(name);
     }
 
-    public Status updateStatus(Long statusId, UpdateStatusDto updateStatusDto)
+    @Override
+    public Status updateStatus(Long statusId, StatusDto statusDto)
     {
         Status status = statusRepo.findById(statusId)
                 .orElseThrow(() -> new EntityNotFoundException("Status not found"));
-        status.setName(updateStatusDto.getName());
-        status.setIsActive(updateStatusDto.getIsActive());
-        status.setDescription(updateStatusDto.getDescription());
+        status.setName(statusDto.getName());
+        status.setIsActive(statusDto.getIsActive());
+        status.setDescription(statusDto.getDescription());
 
         return statusRepo.save(status);
     }
 
+    @Override
     public Optional<Status> getStatusById(Long statusId)
     {
         return statusRepo.findById(statusId);

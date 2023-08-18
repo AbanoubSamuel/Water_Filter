@@ -1,11 +1,10 @@
 package com.aqua.prod.api.controller;
 
 
-import com.aqua.prod.dto.CreateStatusDto;
+import com.aqua.prod.dto.StatusDto;
 import com.aqua.prod.dto.JsonResponse;
-import com.aqua.prod.dto.UpdateStatusDto;
 import com.aqua.prod.entity.Status;
-import com.aqua.prod.serviceImpl.StatusServiceImpl;
+import com.aqua.prod.service.StatusService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +16,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/status")
 public class StatusController {
-    private final StatusServiceImpl statusService;
+    private final StatusService statusService;
 
-    public StatusController(StatusServiceImpl statusService)
+    public StatusController(StatusService statusService)
     {
         this.statusService = statusService;
     }
@@ -27,9 +26,9 @@ public class StatusController {
     @PostMapping()
     public ResponseEntity<JsonResponse<Status>> createStatus(
             @Valid
-            @RequestBody CreateStatusDto createStatusDto)
+            @RequestBody StatusDto statusDto)
     {
-        Optional<Status> statusExists = statusService.checkStatusByName(createStatusDto.getName());
+        Optional<Status> statusExists = statusService.checkStatusByName(statusDto.getName());
         if (statusExists.isPresent()) {
             JsonResponse<Status> jsonResponse = new JsonResponse<>();
             jsonResponse.setStatus(false);
@@ -38,7 +37,7 @@ public class StatusController {
         }
 
         //// Create new status ////
-        Status status = statusService.createStatus(createStatusDto);
+        Status status = statusService.createStatus(statusDto);
         JsonResponse<Status> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
         jsonResponse.setMessage("Status created successfully");
@@ -49,9 +48,9 @@ public class StatusController {
     @PutMapping("/{statusId}")
     public ResponseEntity<JsonResponse<Status>> updateStatus(
             @Valid @PathVariable Long statusId,
-            @Valid @RequestBody UpdateStatusDto updateStatusDto)
+            @Valid @RequestBody StatusDto statusDto)
     {
-        Status updatedStatus = statusService.updateStatus(statusId, updateStatusDto);
+        Status updatedStatus = statusService.updateStatus(statusId, statusDto);
         JsonResponse<Status> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
         jsonResponse.setMessage("Status updated successfully");

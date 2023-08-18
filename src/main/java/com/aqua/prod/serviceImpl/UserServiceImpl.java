@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
     public User register(RegisterDto registerDto) throws UserExistsException
     {
         if (userRepo.findByUserNameIgnoreCase(registerDto.getUserName()).isPresent()
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService {
         return userRepo.save(user);
     }
 
+    @Override
     public UserUpdateDto updateUserProfile(User user, UserUpdateDto userUpdateDto) throws Exception
     {
         userUpdateDto.setPassword(encryptionService.encryptPassword(userUpdateDto.getPassword()));

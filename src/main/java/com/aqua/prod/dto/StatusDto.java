@@ -10,7 +10,8 @@ import java.io.Serializable;
  * DTO for {@link com.aqua.prod.entity.Status}
  */
 @Value
-public class UpdateStatusDto implements Serializable {
+public class StatusDto implements Serializable {
+    @NotNull
     Integer id;
     @NotNull
     @Size(max = 200)
