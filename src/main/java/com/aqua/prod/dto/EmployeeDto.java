@@ -4,7 +4,7 @@ import com.aqua.prod.entity.Employee;
 import com.aqua.prod.entity.Gender;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Value;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 /**
  * DTO for {@link com.aqua.prod.entity.Employee}
  */
-@Value
+@Data
 public class EmployeeDto implements Serializable {
 
     @NotNull

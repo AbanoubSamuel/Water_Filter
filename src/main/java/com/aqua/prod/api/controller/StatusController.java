@@ -6,11 +6,13 @@ import com.aqua.prod.dto.JsonResponse;
 import com.aqua.prod.entity.Status;
 import com.aqua.prod.service.StatusService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,6 +25,18 @@ public class StatusController {
         this.statusService = statusService;
     }
 
+
+    @GetMapping()
+    public ResponseEntity<JsonResponse<List<StatusDto>>> getAllStatuses()
+    {
+        List<StatusDto> statusDto = statusService.getAllStatus();
+        JsonResponse<List<StatusDto>> jsonResponse = new JsonResponse<>();
+        jsonResponse.setStatus(true);
+        jsonResponse.setMessage("Fetched statuses successfully");
+        jsonResponse.setData(statusDto);
+        return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+    }
+
     @PostMapping()
     public ResponseEntity<JsonResponse<Status>> createStatus(
             @Valid
@@ -33,7 +47,7 @@ public class StatusController {
             JsonResponse<Status> jsonResponse = new JsonResponse<>();
             jsonResponse.setStatus(false);
             jsonResponse.setMessage("Status already exists");
-            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(409));
+            return new ResponseEntity<>(jsonResponse, HttpStatus.CONFLICT);
         }
 
         //// Create new status ////
@@ -42,7 +56,7 @@ public class StatusController {
         jsonResponse.setStatus(true);
         jsonResponse.setMessage("Status created successfully");
         jsonResponse.setData(status);
-        return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(201));
+        return new ResponseEntity<>(jsonResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{statusId}")
@@ -59,7 +73,7 @@ public class StatusController {
         return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping()
+    @GetMapping("/{statusId}")
     @PreAuthorize("('ROLE_admin')")
     public ResponseEntity<JsonResponse<Optional<Status>>> getStatus(@Valid @RequestParam("statusId") Integer statusId)
     {

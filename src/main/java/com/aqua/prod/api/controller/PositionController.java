@@ -1,8 +1,8 @@
 package com.aqua.prod.api.controller;
 
 
-import com.aqua.prod.dto.CreatePositionDto;
 import com.aqua.prod.dto.JsonResponse;
+import com.aqua.prod.dto.PositionDto;
 import com.aqua.prod.service.PositionService;
 import com.aqua.prod.service.StatusService;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +24,15 @@ public class PositionController {
     }
 
 
-    public ResponseEntity<JsonResponse> createPosition(CreatePositionDto createPositionDto)
+    public ResponseEntity<JsonResponse<PositionDto>> getPosition(Integer positionId)
     {
-        JsonResponse jsonResponse = new JsonResponse();
+        JsonResponse<PositionDto> jsonResponse = new JsonResponse<>();
+        return null;
+    }
+
+    public ResponseEntity<JsonResponse<PositionDto>> createPosition(PositionDto createPositionDto)
+    {
+        JsonResponse<PositionDto> jsonResponse = new JsonResponse<>();
         return null;
     }
 }

@@ -1,17 +1,18 @@
 package com.aqua.prod.dto;
 
+import com.aqua.prod.entity.Status;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import lombok.Value;
 
 import java.io.Serializable;
 
 /**
- * DTO for {@link com.aqua.prod.entity.Status}
+ * DTO for {@link Status}
  */
-@Value
+@Data
 public class StatusDto implements Serializable {
-    @NotNull
     Integer id;
     @NotNull
     @Size(max = 200)

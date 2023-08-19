@@ -35,6 +35,10 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
     {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Content-Type", "application/json");
+        response.setHeader("Accept", "*/*");
+        response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Authorization, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
         String tokenHeader = request.getHeader(SecurityConstants.AUTHORIZATION);
         if (tokenHeader != null && tokenHeader.startsWith(BEARER)) {
             String token = tokenHeader.substring(7);
@@ -54,7 +58,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
     }
 
-    private static UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(Optional<User> optionalUser) {
+    private static UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(Optional<User> optionalUser)
+    {
         User user = optionalUser.get();
         String roleName = user.getUserType().getRole().getName(); // Get the role name from the user entity
         // Create a SimpleGrantedAuthority using the role name

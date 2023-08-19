@@ -8,6 +8,7 @@ import com.aqua.prod.entity.User;
 import com.aqua.prod.exception.UserExistsException;
 import com.aqua.prod.serviceImpl.UserServiceImpl;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class AuthController {
         if (jwtToken == null) {
             jsonResponse.setStatus(false);
             jsonResponse.setMessage("Invalid credentials");
-            return new ResponseEntity<>(jsonResponse, HttpStatus.valueOf(409));
+            return new ResponseEntity<>(jsonResponse, HttpStatus.BAD_REQUEST);
         } else {
             jsonResponse.setStatus(true);
             jsonResponse.setMessage("Logged-in successfully");

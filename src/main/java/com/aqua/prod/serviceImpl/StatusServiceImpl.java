@@ -4,19 +4,31 @@ import com.aqua.prod.datarest.StatusRepo;
 import com.aqua.prod.dto.StatusDto;
 import com.aqua.prod.entity.Status;
 import com.aqua.prod.service.StatusService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StatusServiceImpl implements StatusService {
     private final StatusRepo statusRepo;
+    private final ObjectMapper mapper;
 
-    public StatusServiceImpl(StatusRepo statusRepo)
+    public StatusServiceImpl(StatusRepo statusRepo, ObjectMapper mapper)
     {
         this.statusRepo = statusRepo;
+        this.mapper = mapper;
     }
+
+
+    @Override
+    public List<StatusDto> getAllStatus()
+    {
+        return statusRepo.findAll().stream().map(status -> mapper.convertValue(status, StatusDto.class)).toList();
+    }
+
 
     @Override
     public Status createStatus(StatusDto statusDto)
@@ -51,4 +63,6 @@ public class StatusServiceImpl implements StatusService {
     {
         return statusRepo.findById(statusId);
     }
+
+
 }

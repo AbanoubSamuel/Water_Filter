@@ -1,10 +1,10 @@
 package com.aqua.prod.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class RegisterDto {
     private String userName;
     private String email;

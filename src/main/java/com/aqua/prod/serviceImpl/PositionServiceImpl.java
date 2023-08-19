@@ -2,7 +2,7 @@ package com.aqua.prod.serviceImpl;
 
 import com.aqua.prod.datarest.PositionRepo;
 import com.aqua.prod.datarest.StatusRepo;
-import com.aqua.prod.dto.CreatePositionDto;
+import com.aqua.prod.dto.PositionDto;
 import com.aqua.prod.entity.Position;
 import com.aqua.prod.service.PositionService;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,13 +21,14 @@ public class PositionServiceImpl implements PositionService {
         this.statusRepo = statusRepo;
     }
 
-    public Position createPosition(CreatePositionDto createPositionDto)
+    @Override
+    public Position createPosition(PositionDto positionDto) throws EntityNotFoundException
     {
         Position position = new Position();
-        position.setName(createPositionDto.getName());
-        position.setStatus(statusRepo.findById(createPositionDto.getStatusId())
+        position.setName(positionDto.getName());
+        position.setStatus(statusRepo.findById(positionDto.getStatusId())
                 .orElseThrow(() -> new EntityNotFoundException("Status not found")));
-        position.setDescription(createPositionDto.getDescription());
+        position.setDescription(positionDto.getDescription());
         return positionRepo.save(position);
     }
 
