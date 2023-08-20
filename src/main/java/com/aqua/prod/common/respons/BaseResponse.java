@@ -1,4 +1,4 @@
-package com.aqua.prod.respons;
+package com.aqua.prod.common.respons;
 
 import lombok.Getter;
 import lombok.Setter;

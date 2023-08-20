@@ -1,10 +1,10 @@
 package com.aqua.prod.service;
 
+import com.aqua.prod.common.exception.UserExistsException;
 import com.aqua.prod.dto.LoginDto;
 import com.aqua.prod.dto.RegisterDto;
 import com.aqua.prod.dto.UserUpdateDto;
 import com.aqua.prod.entity.User;
-import com.aqua.prod.exception.UserExistsException;
 
 public interface UserService {
     String login(LoginDto loginDto);

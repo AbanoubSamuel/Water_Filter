@@ -37,4 +37,15 @@ public class PositionServiceImpl implements PositionService {
     {
         return positionRepo.findByNameIgnoreCase(name);
     }
+
+    @Override
+    public Optional<Position> getPositionById(PositionDto positionDto)
+    {
+        Optional<Position> position = positionRepo.findById(positionDto.getId());
+        if (position.isPresent()) {
+            return position;
+        } else {
+            throw new EntityNotFoundException();
+        }
+    }
 }

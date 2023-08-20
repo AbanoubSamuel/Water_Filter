@@ -9,4 +9,6 @@ public interface PositionService {
     Position createPosition(PositionDto positionDto);
 
     Optional<Position> checkPositionByName(String name);
+
+    Optional<Position> getPositionById(PositionDto positionDto);
 }

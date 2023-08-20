@@ -1,11 +1,11 @@
 package com.aqua.prod.api.controller;
 
 
+import com.aqua.prod.common.exception.UserExistsException;
 import com.aqua.prod.dto.EmployeeDto;
-import com.aqua.prod.respons.BaseResponse;
+import com.aqua.prod.common.respons.BaseResponse;
 import com.aqua.prod.dto.RegisterDto;
 import com.aqua.prod.entity.Employee;
-import com.aqua.prod.exception.UserExistsException;
 import com.aqua.prod.serviceImpl.EmployeeServiceImpl;
 import com.aqua.prod.dto.UserEmployeeDto;
 import org.springframework.http.HttpStatusCode;

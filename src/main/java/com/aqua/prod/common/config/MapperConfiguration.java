@@ -1,4 +1,4 @@
-package com.aqua.prod.config;
+package com.aqua.prod.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

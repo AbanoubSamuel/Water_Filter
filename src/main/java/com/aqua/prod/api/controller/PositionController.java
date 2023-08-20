@@ -1,7 +1,7 @@
 package com.aqua.prod.api.controller;
 
 
-import com.aqua.prod.respons.BaseResponse;
+import com.aqua.prod.common.respons.BaseResponse;
 import com.aqua.prod.dto.PositionDto;
 import com.aqua.prod.service.PositionService;
 import com.aqua.prod.service.StatusService;

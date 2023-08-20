@@ -2,7 +2,7 @@ package com.aqua.prod.api.controller;
 
 
 import com.aqua.prod.dto.StatusDto;
-import com.aqua.prod.respons.BaseResponse;
+import com.aqua.prod.common.respons.BaseResponse;
 import com.aqua.prod.entity.Status;
 import com.aqua.prod.service.StatusService;
 import jakarta.validation.Valid;

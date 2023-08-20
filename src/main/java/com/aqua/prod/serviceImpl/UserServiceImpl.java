@@ -1,12 +1,12 @@
 package com.aqua.prod.serviceImpl;
 
+import com.aqua.prod.common.exception.UserExistsException;
 import com.aqua.prod.datarest.EmployeeRepo;
 import com.aqua.prod.datarest.UserRepo;
 import com.aqua.prod.dto.LoginDto;
 import com.aqua.prod.dto.RegisterDto;
 import com.aqua.prod.dto.UserUpdateDto;
 import com.aqua.prod.entity.User;
-import com.aqua.prod.exception.UserExistsException;
 import com.aqua.prod.service.UserService;
 import org.springframework.stereotype.Service;
 
