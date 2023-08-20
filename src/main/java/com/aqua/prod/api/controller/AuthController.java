@@ -1,6 +1,6 @@
 package com.aqua.prod.api.controller;
 
-import com.aqua.prod.dto.JsonResponse;
+import com.aqua.prod.respons.BaseResponse;
 import com.aqua.prod.dto.LoginDto;
 import com.aqua.prod.dto.RegisterDto;
 import com.aqua.prod.dto.UserUpdateDto;
@@ -8,7 +8,6 @@ import com.aqua.prod.entity.User;
 import com.aqua.prod.exception.UserExistsException;
 import com.aqua.prod.serviceImpl.UserServiceImpl;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -27,54 +26,54 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<JsonResponse<User>> register(@Valid @RequestBody RegisterDto registerDto) throws UserExistsException
+    public ResponseEntity<BaseResponse<User>> register(@Valid @RequestBody RegisterDto registerDto) throws UserExistsException
     {
         User user = userService.register(registerDto);
-        JsonResponse<User> jsonResponse = new JsonResponse<>();
-        jsonResponse.setStatus(true);
-        jsonResponse.setMessage("Registered successfully");
-        jsonResponse.setData(user);
-        return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(201));
+        BaseResponse<User> baseResponse = new BaseResponse<>();
+        baseResponse.setStatus(true);
+        baseResponse.setMessage("Registered successfully");
+        baseResponse.setData(user);
+        return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(201));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JsonResponse<String>> login(@Valid @RequestBody LoginDto loginDto)
+    public ResponseEntity<BaseResponse<String>> login(@Valid @RequestBody LoginDto loginDto)
     {
-        JsonResponse<String> jsonResponse = new JsonResponse<>();
+        BaseResponse<String> baseResponse = new BaseResponse<>();
         String jwtToken = userService.login(loginDto);
         if (jwtToken == null) {
-            jsonResponse.setStatus(false);
-            jsonResponse.setMessage("Invalid credentials");
-            return new ResponseEntity<>(jsonResponse, HttpStatus.BAD_REQUEST);
+            baseResponse.setStatus(false);
+            baseResponse.setMessage("Invalid credentials");
+            return new ResponseEntity<>(baseResponse, HttpStatus.BAD_REQUEST);
         } else {
-            jsonResponse.setStatus(true);
-            jsonResponse.setMessage("Logged-in successfully");
-            jsonResponse.setData(jwtToken);
-            return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+            baseResponse.setStatus(true);
+            baseResponse.setMessage("Logged-in successfully");
+            baseResponse.setData(jwtToken);
+            return new ResponseEntity<>(baseResponse, HttpStatus.OK);
         }
     }
 
 
     @GetMapping("/me")
-    public ResponseEntity<JsonResponse<User>> getLoggedInUserProfile(@AuthenticationPrincipal User user)
+    public ResponseEntity<BaseResponse<User>> getLoggedInUserProfile(@AuthenticationPrincipal User user)
     {
-        JsonResponse<User> jsonResponse = new JsonResponse<>();
-        jsonResponse.setStatus(true);
-        jsonResponse.setMessage("User fetched successfully");
-        jsonResponse.setData(user);
-        return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+        BaseResponse<User> baseResponse = new BaseResponse<>();
+        baseResponse.setStatus(true);
+        baseResponse.setMessage("User fetched successfully");
+        baseResponse.setData(user);
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 
 
     @PutMapping("/update")
-    public ResponseEntity<JsonResponse<UserUpdateDto>> updateUserProfile(@AuthenticationPrincipal User user, @RequestBody UserUpdateDto userUpdateDto) throws Exception
+    public ResponseEntity<BaseResponse<UserUpdateDto>> updateUserProfile(@AuthenticationPrincipal User user, @RequestBody UserUpdateDto userUpdateDto) throws Exception
     {
         UserUpdateDto updatedUser = userService.updateUserProfile(user, userUpdateDto);
-        JsonResponse<UserUpdateDto> jsonResponse = new JsonResponse<>();
-        jsonResponse.setStatus(true);
-        jsonResponse.setMessage("User updated successfully");
-        jsonResponse.setData(updatedUser);
-        return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+        BaseResponse<UserUpdateDto> baseResponse = new BaseResponse<>();
+        baseResponse.setStatus(true);
+        baseResponse.setMessage("User updated successfully");
+        baseResponse.setData(updatedUser);
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 
 }

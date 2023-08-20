@@ -1,7 +1,7 @@
 package com.aqua.prod.api.controller;
 
 
-import com.aqua.prod.dto.JsonResponse;
+import com.aqua.prod.respons.BaseResponse;
 import com.aqua.prod.dto.PositionDto;
 import com.aqua.prod.service.PositionService;
 import com.aqua.prod.service.StatusService;
@@ -24,15 +24,15 @@ public class PositionController {
     }
 
 
-    public ResponseEntity<JsonResponse<PositionDto>> getPosition(Integer positionId)
+    public ResponseEntity<BaseResponse<PositionDto>> getPosition(Integer positionId)
     {
-        JsonResponse<PositionDto> jsonResponse = new JsonResponse<>();
+        BaseResponse<PositionDto> baseResponse = new BaseResponse<>();
         return null;
     }
 
-    public ResponseEntity<JsonResponse<PositionDto>> createPosition(PositionDto createPositionDto)
+    public ResponseEntity<BaseResponse<PositionDto>> createPosition(PositionDto createPositionDto)
     {
-        JsonResponse<PositionDto> jsonResponse = new JsonResponse<>();
+        BaseResponse<PositionDto> baseResponse = new BaseResponse<>();
         return null;
     }
 }

@@ -2,7 +2,7 @@ package com.aqua.prod.api.controller;
 
 
 import com.aqua.prod.dto.StatusDto;
-import com.aqua.prod.dto.JsonResponse;
+import com.aqua.prod.respons.BaseResponse;
 import com.aqua.prod.entity.Status;
 import com.aqua.prod.service.StatusService;
 import jakarta.validation.Valid;
@@ -27,68 +27,68 @@ public class StatusController {
 
 
     @GetMapping()
-    public ResponseEntity<JsonResponse<List<StatusDto>>> getAllStatuses()
+    public ResponseEntity<BaseResponse<List<StatusDto>>> getAllStatuses()
     {
         List<StatusDto> statusDto = statusService.getAllStatus();
-        JsonResponse<List<StatusDto>> jsonResponse = new JsonResponse<>();
-        jsonResponse.setStatus(true);
-        jsonResponse.setMessage("Fetched statuses successfully");
-        jsonResponse.setData(statusDto);
-        return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+        BaseResponse<List<StatusDto>> baseResponse = new BaseResponse<>();
+        baseResponse.setStatus(true);
+        baseResponse.setMessage("Fetched statuses successfully");
+        baseResponse.setData(statusDto);
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<JsonResponse<Status>> createStatus(
+    public ResponseEntity<BaseResponse<Status>> createStatus(
             @Valid
             @RequestBody StatusDto statusDto)
     {
         Optional<Status> statusExists = statusService.checkStatusByName(statusDto.getName());
         if (statusExists.isPresent()) {
-            JsonResponse<Status> jsonResponse = new JsonResponse<>();
-            jsonResponse.setStatus(false);
-            jsonResponse.setMessage("Status already exists");
-            return new ResponseEntity<>(jsonResponse, HttpStatus.CONFLICT);
+            BaseResponse<Status> baseResponse = new BaseResponse<>();
+            baseResponse.setStatus(false);
+            baseResponse.setMessage("Status already exists");
+            return new ResponseEntity<>(baseResponse, HttpStatus.CONFLICT);
         }
 
         //// Create new status ////
         Status status = statusService.createStatus(statusDto);
-        JsonResponse<Status> jsonResponse = new JsonResponse<>();
-        jsonResponse.setStatus(true);
-        jsonResponse.setMessage("Status created successfully");
-        jsonResponse.setData(status);
-        return new ResponseEntity<>(jsonResponse, HttpStatus.CREATED);
+        BaseResponse<Status> baseResponse = new BaseResponse<>();
+        baseResponse.setStatus(true);
+        baseResponse.setMessage("Status created successfully");
+        baseResponse.setData(status);
+        return new ResponseEntity<>(baseResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{statusId}")
-    public ResponseEntity<JsonResponse<Status>> updateStatus(
+    public ResponseEntity<BaseResponse<Status>> updateStatus(
             @Valid @PathVariable Integer statusId,
             @Valid @RequestBody StatusDto statusDto)
     {
         Status updatedStatus = statusService.updateStatus(statusId, statusDto);
-        JsonResponse<Status> jsonResponse = new JsonResponse<>();
-        jsonResponse.setStatus(true);
-        jsonResponse.setMessage("Status updated successfully");
-        jsonResponse.setData(updatedStatus);
+        BaseResponse<Status> baseResponse = new BaseResponse<>();
+        baseResponse.setStatus(true);
+        baseResponse.setMessage("Status updated successfully");
+        baseResponse.setData(updatedStatus);
 
-        return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(200));
     }
 
     @GetMapping("/{statusId}")
     @PreAuthorize("('ROLE_admin')")
-    public ResponseEntity<JsonResponse<Optional<Status>>> getStatus(@Valid @RequestParam("statusId") Integer statusId)
+    public ResponseEntity<BaseResponse<Optional<Status>>> getStatus(@Valid @RequestParam("statusId") Integer statusId)
     {
         Optional<Status> status = statusService.getStatusById(statusId);
 
-        JsonResponse<Optional<Status>> jsonResponse = new JsonResponse<>();
+        BaseResponse<Optional<Status>> baseResponse = new BaseResponse<>();
         if (status.isPresent()) {
-            jsonResponse.setStatus(true);
-            jsonResponse.setMessage("Fetched status successfully");
-            jsonResponse.setData(status);
-            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
+            baseResponse.setStatus(true);
+            baseResponse.setMessage("Fetched status successfully");
+            baseResponse.setData(status);
+            return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(200));
         } else {
-            jsonResponse.setStatus(false);
-            jsonResponse.setMessage("Status not found with " + statusId + " id");
-            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(404));
+            baseResponse.setStatus(false);
+            baseResponse.setMessage("Status not found with " + statusId + " id");
+            return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(404));
         }
     }
 }
