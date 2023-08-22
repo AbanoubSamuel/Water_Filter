@@ -11,9 +11,9 @@ public interface StatusService {
 
     Optional<Status> checkStatusByName(String name);
 
-    Status updateStatus(Integer statusId, StatusDto statusDto);
+    Status updateStatus(StatusDto statusDto);
 
     Optional<Status> getStatusById(Integer statusId);
 
-    List<StatusDto> getAllStatus();
+    List<StatusDto> getAllStatuses();
 }

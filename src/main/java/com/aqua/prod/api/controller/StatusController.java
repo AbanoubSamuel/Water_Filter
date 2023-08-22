@@ -20,70 +20,77 @@ import java.util.Optional;
 public class StatusController {
     private final StatusService statusService;
 
-    public StatusController(StatusService statusService)
+    private StatusController(StatusService statusService)
     {
         this.statusService = statusService;
     }
 
 
     @GetMapping()
-    public ResponseEntity<BaseResponse<List<StatusDto>>> getAllStatuses()
+    private ResponseEntity<BaseResponse<List<StatusDto>>> getAllStatuses()
     {
-        List<StatusDto> statusDto = statusService.getAllStatus();
+        List<StatusDto> statusDto = statusService.getAllStatuses();
         BaseResponse<List<StatusDto>> baseResponse = new BaseResponse<>();
-        baseResponse.setStatus(true);
-        baseResponse.setMessage("Fetched statuses successfully");
-        baseResponse.setData(statusDto);
-        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+        if (!statusDto.isEmpty()) {
+            baseResponse.setStatus(true);
+            baseResponse.setMessage("Fetched statuses successfully");
+            baseResponse.setData(statusDto);
+            return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+        } else {
+            baseResponse.setStatus(false);
+            baseResponse.setMessage("No statuses found");
+            return new ResponseEntity<>(baseResponse, HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @PostMapping()
-    public ResponseEntity<BaseResponse<Status>> createStatus(
-            @Valid
-            @RequestBody StatusDto statusDto)
+    private ResponseEntity<BaseResponse<Status>> createStatus(@Valid @RequestBody StatusDto statusDto)
     {
-        Optional<Status> statusExists = statusService.checkStatusByName(statusDto.getName());
-        if (statusExists.isPresent()) {
-            BaseResponse<Status> baseResponse = new BaseResponse<>();
-            baseResponse.setStatus(false);
-            baseResponse.setMessage("Status already exists");
-            return new ResponseEntity<>(baseResponse, HttpStatus.CONFLICT);
-        }
-
         //// Create new status ////
         Status status = statusService.createStatus(statusDto);
         BaseResponse<Status> baseResponse = new BaseResponse<>();
-        baseResponse.setStatus(true);
-        baseResponse.setMessage("Status created successfully");
-        baseResponse.setData(status);
-        return new ResponseEntity<>(baseResponse, HttpStatus.CREATED);
+        if (status != null) {
+            baseResponse.setStatus(true);
+            baseResponse.setMessage("Status created successfully");
+            baseResponse.setData(status);
+            return new ResponseEntity<>(baseResponse, HttpStatus.CREATED);
+        } else {
+            baseResponse.setStatus(false);
+            baseResponse.setMessage("Failed to create status");
+            return new ResponseEntity<>(baseResponse, HttpStatus.EXPECTATION_FAILED);
+        }
+
     }
 
-    @PutMapping("/{statusId}")
-    public ResponseEntity<BaseResponse<Status>> updateStatus(
-            @Valid @PathVariable Integer statusId,
-            @Valid @RequestBody StatusDto statusDto)
+    @PutMapping()
+    private ResponseEntity<BaseResponse<Status>> updateStatus(@Valid @RequestBody StatusDto statusDto)
     {
-        Status updatedStatus = statusService.updateStatus(statusId, statusDto);
-        BaseResponse<Status> baseResponse = new BaseResponse<>();
-        baseResponse.setStatus(true);
-        baseResponse.setMessage("Status updated successfully");
-        baseResponse.setData(updatedStatus);
-
-        return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(200));
+        Status updatedStatus = statusService.updateStatus(statusDto);
+        if (updatedStatus != null) {
+            BaseResponse<Status> baseResponse = new BaseResponse<>();
+            baseResponse.setStatus(true);
+            baseResponse.setMessage("Status updated successfully");
+            baseResponse.setData(updatedStatus);
+            return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(200));
+        } else {
+            BaseResponse<Status> baseResponse = new BaseResponse<>();
+            baseResponse.setStatus(false);
+            baseResponse.setMessage("Failed to update status");
+            return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(200));
+        }
     }
 
-    @GetMapping("/{statusId}")
-    @PreAuthorize("('ROLE_admin')")
-    public ResponseEntity<BaseResponse<Optional<Status>>> getStatus(@Valid @RequestParam("statusId") Integer statusId)
+    @GetMapping("/get{statusId}")
+    private ResponseEntity<BaseResponse<Status>> getStatus(@Valid @RequestParam(name = "statusId") Integer statusId)
+
     {
         Optional<Status> status = statusService.getStatusById(statusId);
-
-        BaseResponse<Optional<Status>> baseResponse = new BaseResponse<>();
+        BaseResponse<Status> baseResponse = new BaseResponse<>();
         if (status.isPresent()) {
             baseResponse.setStatus(true);
-            baseResponse.setMessage("Fetched status successfully");
-            baseResponse.setData(status);
+            baseResponse.setMessage("Status fetched successfully");
+            baseResponse.setData(status.get());
             return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(200));
         } else {
             baseResponse.setStatus(false);

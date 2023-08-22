@@ -39,7 +39,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         response.setHeader("Content-Type", "application/json");
         response.setHeader("Accept", "*/*");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "Authorization, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method");
+        response.setHeader("Access-Control-Allow-Headers", "Authorization, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method");
         String tokenHeader = request.getHeader(SecurityConstants.AUTHORIZATION);
         if (tokenHeader != null && tokenHeader.startsWith(BEARER)) {
             String token = tokenHeader.substring(7);

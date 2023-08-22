@@ -20,13 +20,13 @@ public class AuthController {
 
     private final UserServiceImpl userService;
 
-    public AuthController(UserServiceImpl userService)
+    private AuthController(UserServiceImpl userService)
     {
         this.userService = userService;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<BaseResponse<User>> register(@Valid @RequestBody RegisterDto registerDto) throws UserExistsException
+    private ResponseEntity<BaseResponse<User>> register(@Valid @RequestBody RegisterDto registerDto) throws UserExistsException
     {
         User user = userService.register(registerDto);
         BaseResponse<User> baseResponse = new BaseResponse<>();
@@ -37,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<BaseResponse<String>> login(@Valid @RequestBody LoginDto loginDto)
+    private ResponseEntity<BaseResponse<String>> login(@Valid @RequestBody LoginDto loginDto)
     {
         BaseResponse<String> baseResponse = new BaseResponse<>();
         String jwtToken = userService.login(loginDto);
@@ -55,7 +55,7 @@ public class AuthController {
 
 
     @GetMapping("/me")
-    public ResponseEntity<BaseResponse<User>> getLoggedInUserProfile(@AuthenticationPrincipal User user)
+    private ResponseEntity<BaseResponse<User>> getLoggedInUserProfile(@AuthenticationPrincipal User user)
     {
         BaseResponse<User> baseResponse = new BaseResponse<>();
         baseResponse.setStatus(true);
@@ -66,7 +66,7 @@ public class AuthController {
 
 
     @PutMapping("/update")
-    public ResponseEntity<BaseResponse<UserUpdateDto>> updateUserProfile(@AuthenticationPrincipal User user, @RequestBody UserUpdateDto userUpdateDto) throws Exception
+    private ResponseEntity<BaseResponse<UserUpdateDto>> updateUserProfile(@AuthenticationPrincipal User user, @RequestBody UserUpdateDto userUpdateDto) throws Exception
     {
         UserUpdateDto updatedUser = userService.updateUserProfile(user, userUpdateDto);
         BaseResponse<UserUpdateDto> baseResponse = new BaseResponse<>();

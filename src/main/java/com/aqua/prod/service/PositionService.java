@@ -10,5 +10,7 @@ public interface PositionService {
 
     Optional<Position> checkPositionByName(String name);
 
-    Optional<Position> getPositionById(PositionDto positionDto);
+    Optional<Position> getPositionById(Integer id);
+
+    void deletePositionById(Integer id);
 }

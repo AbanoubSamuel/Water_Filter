@@ -24,7 +24,7 @@ public class StatusServiceImpl implements StatusService {
 
 
     @Override
-    public List<StatusDto> getAllStatus()
+    public List<StatusDto> getAllStatuses()
     {
         return statusRepo.findAll().stream().map(status -> mapper.convertValue(status, StatusDto.class)).toList();
     }
@@ -33,12 +33,12 @@ public class StatusServiceImpl implements StatusService {
     @Override
     public Status createStatus(StatusDto statusDto)
     {
-        Status status = new Status();
-        status.setName(statusDto.getName());
-        status.setIsActive(statusDto.getIsActive());
-        status.setDescription(statusDto.getDescription());
-        statusRepo.save(status);
-        return statusRepo.save(status);
+        Optional<Status> existingStatus = checkStatusByName(statusDto.getName());
+        if (existingStatus.isPresent()) {
+            throw new RuntimeException("Status already exists");
+        } else {
+            return statusRepo.save(mapper.convertValue(statusDto, Status.class));
+        }
     }
 
     public Optional<Status> checkStatusByName(String name)
@@ -47,15 +47,20 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public Status updateStatus(Integer statusId, StatusDto statusDto)
+    public Status updateStatus(StatusDto statusDto)
     {
-        Status status = statusRepo.findById(statusId)
+        Status status = statusRepo.findById(statusDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Status not found"));
-        status.setName(statusDto.getName());
-        status.setIsActive(statusDto.getIsActive());
-        status.setDescription(statusDto.getDescription());
+        try {
+            if (status != null) {
+                return statusRepo.save(mapper.convertValue(statusDto, Status.class));
+            } else {
+                return null;
+            }
 
-        return statusRepo.save(status);
+        } catch (EntityNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.aqua.prod.dto.PositionDto;
 import com.aqua.prod.entity.Position;
 import com.aqua.prod.service.PositionService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -39,13 +40,26 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public Optional<Position> getPositionById(PositionDto positionDto)
+    public Optional<Position> getPositionById(Integer id)
     {
-        Optional<Position> position = positionRepo.findById(positionDto.getId());
+        Optional<Position> position = positionRepo.findById(id);
         if (position.isPresent()) {
             return position;
         } else {
             throw new EntityNotFoundException();
+        }
+    }
+
+    @Override
+    public void deletePositionById(Integer id)
+    {
+        try {
+            Optional<Position> position = positionRepo.findById(id);
+            if (position.isPresent()) {
+                positionRepo.deleteById(id);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
