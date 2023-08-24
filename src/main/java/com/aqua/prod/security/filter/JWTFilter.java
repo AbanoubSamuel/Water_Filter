@@ -9,7 +9,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +26,7 @@ import static com.aqua.prod.security.SecurityConstants.BEARER;
 
 @Component
 @AllArgsConstructor
-public class JWTRequestFilter extends OncePerRequestFilter {
+public class JWTFilter extends OncePerRequestFilter {
 
     private JWTServiceImpl jwtService;
     private UserRepo userRepo;

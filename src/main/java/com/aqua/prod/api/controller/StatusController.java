@@ -2,14 +2,13 @@ package com.aqua.prod.api.controller;
 
 
 import com.aqua.prod.dto.StatusDto;
-import com.aqua.prod.common.respons.BaseResponse;
+import com.aqua.prod.common.respons.JsonResponse;
 import com.aqua.prod.entity.Status;
 import com.aqua.prod.service.StatusService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,76 +25,76 @@ public class StatusController {
     }
 
 
-    @GetMapping()
-    private ResponseEntity<BaseResponse<List<StatusDto>>> getAllStatuses()
+    @GetMapping("/all")
+    private ResponseEntity<JsonResponse<List<StatusDto>>> getAllStatuses()
     {
         List<StatusDto> statusDto = statusService.getAllStatuses();
-        BaseResponse<List<StatusDto>> baseResponse = new BaseResponse<>();
+        JsonResponse<List<StatusDto>> jsonResponse = new JsonResponse<>();
         if (!statusDto.isEmpty()) {
-            baseResponse.setStatus(true);
-            baseResponse.setMessage("Fetched statuses successfully");
-            baseResponse.setData(statusDto);
-            return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+            jsonResponse.setStatus(true);
+            jsonResponse.setMessage("Fetched statuses successfully");
+            jsonResponse.setData(statusDto);
+            return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
         } else {
-            baseResponse.setStatus(false);
-            baseResponse.setMessage("No statuses found");
-            return new ResponseEntity<>(baseResponse, HttpStatus.NOT_FOUND);
+            jsonResponse.setStatus(false);
+            jsonResponse.setMessage("No statuses found");
+            return new ResponseEntity<>(jsonResponse, HttpStatus.NOT_FOUND);
         }
 
     }
 
     @PostMapping()
-    private ResponseEntity<BaseResponse<Status>> createStatus(@Valid @RequestBody StatusDto statusDto)
+    private ResponseEntity<JsonResponse<Status>> createStatus(@Valid @RequestBody StatusDto statusDto)
     {
         //// Create new status ////
         Status status = statusService.createStatus(statusDto);
-        BaseResponse<Status> baseResponse = new BaseResponse<>();
+        JsonResponse<Status> jsonResponse = new JsonResponse<>();
         if (status != null) {
-            baseResponse.setStatus(true);
-            baseResponse.setMessage("Status created successfully");
-            baseResponse.setData(status);
-            return new ResponseEntity<>(baseResponse, HttpStatus.CREATED);
+            jsonResponse.setStatus(true);
+            jsonResponse.setMessage("Status created successfully");
+            jsonResponse.setData(status);
+            return new ResponseEntity<>(jsonResponse, HttpStatus.CREATED);
         } else {
-            baseResponse.setStatus(false);
-            baseResponse.setMessage("Failed to create status");
-            return new ResponseEntity<>(baseResponse, HttpStatus.EXPECTATION_FAILED);
+            jsonResponse.setStatus(false);
+            jsonResponse.setMessage("Failed to create status");
+            return new ResponseEntity<>(jsonResponse, HttpStatus.EXPECTATION_FAILED);
         }
 
     }
 
     @PutMapping()
-    private ResponseEntity<BaseResponse<Status>> updateStatus(@Valid @RequestBody StatusDto statusDto)
+    private ResponseEntity<JsonResponse<Status>> updateStatus(@Valid @RequestBody StatusDto statusDto)
     {
         Status updatedStatus = statusService.updateStatus(statusDto);
         if (updatedStatus != null) {
-            BaseResponse<Status> baseResponse = new BaseResponse<>();
-            baseResponse.setStatus(true);
-            baseResponse.setMessage("Status updated successfully");
-            baseResponse.setData(updatedStatus);
-            return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(200));
+            JsonResponse<Status> jsonResponse = new JsonResponse<>();
+            jsonResponse.setStatus(true);
+            jsonResponse.setMessage("Status updated successfully");
+            jsonResponse.setData(updatedStatus);
+            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
         } else {
-            BaseResponse<Status> baseResponse = new BaseResponse<>();
-            baseResponse.setStatus(false);
-            baseResponse.setMessage("Failed to update status");
-            return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(200));
+            JsonResponse<Status> jsonResponse = new JsonResponse<>();
+            jsonResponse.setStatus(false);
+            jsonResponse.setMessage("Failed to update status");
+            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
         }
     }
 
-    @GetMapping("/get{statusId}")
-    private ResponseEntity<BaseResponse<Status>> getStatus(@Valid @RequestParam(name = "statusId") Integer statusId)
+    @GetMapping()
+    private ResponseEntity<JsonResponse<Status>> getStatus(@Valid @RequestParam(name = "statusId") Integer statusId)
 
     {
         Optional<Status> status = statusService.getStatusById(statusId);
-        BaseResponse<Status> baseResponse = new BaseResponse<>();
+        JsonResponse<Status> jsonResponse = new JsonResponse<>();
         if (status.isPresent()) {
-            baseResponse.setStatus(true);
-            baseResponse.setMessage("Status fetched successfully");
-            baseResponse.setData(status.get());
-            return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(200));
+            jsonResponse.setStatus(true);
+            jsonResponse.setMessage("Status fetched successfully");
+            jsonResponse.setData(status.get());
+            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(200));
         } else {
-            baseResponse.setStatus(false);
-            baseResponse.setMessage("Status not found with " + statusId + " id");
-            return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(404));
+            jsonResponse.setStatus(false);
+            jsonResponse.setMessage("Status not found with " + statusId + " id");
+            return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(404));
         }
     }
 }

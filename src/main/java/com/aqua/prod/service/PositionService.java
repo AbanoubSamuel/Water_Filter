@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface PositionService {
     Position createPosition(PositionDto positionDto);
 
+    Position updatePosition(PositionDto positionDto);
+
     Optional<Position> checkPositionByName(String name);
 
     Optional<Position> getPositionById(Integer id);

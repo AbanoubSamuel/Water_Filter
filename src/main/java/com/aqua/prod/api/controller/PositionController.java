@@ -1,13 +1,17 @@
 package com.aqua.prod.api.controller;
 
 
-import com.aqua.prod.common.respons.BaseResponse;
+import com.aqua.prod.common.respons.JsonResponse;
 import com.aqua.prod.dto.PositionDto;
+import com.aqua.prod.entity.Position;
 import com.aqua.prod.service.PositionService;
 import com.aqua.prod.service.StatusService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @RestController
@@ -24,15 +28,70 @@ public class PositionController {
     }
 
 
-    public ResponseEntity<BaseResponse<PositionDto>> getPosition(Integer positionId)
+    @GetMapping
+    public ResponseEntity<JsonResponse<Position>> getPosition(@Valid @RequestParam(name = "id") Integer id)
     {
-        BaseResponse<PositionDto> baseResponse = new BaseResponse<>();
-        return null;
+        try {
+            Optional<Position> position = positionService.getPositionById(id);
+            JsonResponse<Position> jsonResponse = new JsonResponse<>();
+            if (position.isPresent()) {
+                jsonResponse.setStatus(true);
+                jsonResponse.setMessage("Fetched position successfully");
+                jsonResponse.setData(position.get());
+                return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+            } else {
+                jsonResponse.setStatus(false);
+                jsonResponse.setMessage("Position not found successfully");
+                return new ResponseEntity<>(jsonResponse, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            JsonResponse<Position> jsonResponse = new JsonResponse<>();
+            jsonResponse.setStatus(false);
+            jsonResponse.setMessage(e.getMessage());
+            return new ResponseEntity<>(jsonResponse, HttpStatus.SERVICE_UNAVAILABLE);
+        }
     }
 
-    public ResponseEntity<BaseResponse<PositionDto>> createPosition(PositionDto createPositionDto)
+    @PostMapping
+    public ResponseEntity<JsonResponse<Position>> createPosition(@RequestBody PositionDto positionDto)
     {
-        BaseResponse<PositionDto> baseResponse = new BaseResponse<>();
-        return null;
+        try {
+            Optional<Position> existingPosition = positionService.checkPositionByName(positionDto.getName());
+            JsonResponse<Position> jsonResponse = new JsonResponse<>();
+
+            if (existingPosition.isPresent()) {
+                jsonResponse.setStatus(false);
+                jsonResponse.setMessage("Position already exists");
+                return new ResponseEntity<>(jsonResponse, HttpStatus.CONFLICT);
+            }
+            Position position = positionService.createPosition(positionDto);
+            jsonResponse.setStatus(true);
+            jsonResponse.setMessage("Successfully created position");
+            jsonResponse.setData(position);
+            return new ResponseEntity<>(jsonResponse, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            JsonResponse<Position> jsonResponse = new JsonResponse<>();
+            jsonResponse.setStatus(false);
+            jsonResponse.setMessage("Failed to create position");
+            return new ResponseEntity<>(jsonResponse, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<JsonResponse<Position>> updatePosition(@RequestBody PositionDto positionDto)
+    {
+        try {
+            JsonResponse<Position> jsonResponse = new JsonResponse<>();
+            Position position = positionService.updatePosition(positionDto);
+            jsonResponse.setStatus(true);
+            jsonResponse.setMessage("Successfully updated position");
+            jsonResponse.setData(position);
+            return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            JsonResponse<Position> jsonResponse = new JsonResponse<>();
+            jsonResponse.setStatus(false);
+            jsonResponse.setMessage("Position or Status not found");
+            return new ResponseEntity<>(jsonResponse, HttpStatus.SERVICE_UNAVAILABLE);
+        }
     }
 }

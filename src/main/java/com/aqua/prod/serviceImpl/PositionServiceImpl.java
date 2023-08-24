@@ -1,12 +1,14 @@
 package com.aqua.prod.serviceImpl;
 
+import com.aqua.prod.common.respons.JsonResponse;
 import com.aqua.prod.datarest.PositionRepo;
 import com.aqua.prod.datarest.StatusRepo;
 import com.aqua.prod.dto.PositionDto;
 import com.aqua.prod.entity.Position;
+import com.aqua.prod.entity.Status;
 import com.aqua.prod.service.PositionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,22 +17,42 @@ import java.util.Optional;
 public class PositionServiceImpl implements PositionService {
     private PositionRepo positionRepo;
     private StatusRepo statusRepo;
+    private ObjectMapper mapper;
 
-    public PositionServiceImpl(PositionRepo positionRepo, StatusRepo statusRepo)
+    public PositionServiceImpl(PositionRepo positionRepo, StatusRepo statusRepo, ObjectMapper mapper)
     {
         this.positionRepo = positionRepo;
         this.statusRepo = statusRepo;
+        this.mapper = mapper;
     }
 
     @Override
-    public Position createPosition(PositionDto positionDto) throws EntityNotFoundException
+    public Position createPosition(PositionDto positionDto)
     {
-        Position position = new Position();
-        position.setName(positionDto.getName());
-        position.setStatus(statusRepo.findById(positionDto.getStatusId())
-                .orElseThrow(() -> new EntityNotFoundException("Status not found")));
-        position.setDescription(positionDto.getDescription());
-        return positionRepo.save(position);
+        try {
+            return positionRepo.save(mapper.convertValue(positionDto, Position.class));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Position updatePosition(PositionDto positionDto) throws EntityNotFoundException
+    {
+        try {
+            Optional<Position> position = positionRepo.findById(positionDto.getId());
+            Optional<Status> status = statusRepo.findById(positionDto.getStatus());
+            if (position.isPresent() && status.isPresent()) {
+                position.get().setName(positionDto.getName());
+                position.get().setStatus(status.get());
+                position.get().setDescription(positionDto.getDescription());
+                return positionRepo.save(position.get());
+            } else {
+                throw new EntityNotFoundException("Position or Status not found");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -42,12 +64,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public Optional<Position> getPositionById(Integer id)
     {
-        Optional<Position> position = positionRepo.findById(id);
-        if (position.isPresent()) {
-            return position;
-        } else {
-            throw new EntityNotFoundException();
-        }
+        return positionRepo.findById(id);
     }
 
     @Override

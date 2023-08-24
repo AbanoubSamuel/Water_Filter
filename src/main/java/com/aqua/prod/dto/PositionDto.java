@@ -14,13 +14,12 @@ import java.io.Serializable;
  */
 @Data
 public class PositionDto implements Serializable {
-    @Nullable
     Integer id;
     @NotNull
     @Size(max = 200)
     String name;
     @NotNull
-    Integer statusId;
+    Integer status;
     @Size(max = 1000)
     String description;
 }

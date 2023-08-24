@@ -24,7 +24,7 @@ public class Position {
     private String name;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
 

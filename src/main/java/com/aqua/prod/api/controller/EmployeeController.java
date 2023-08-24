@@ -3,7 +3,7 @@ package com.aqua.prod.api.controller;
 
 import com.aqua.prod.common.exception.UserExistsException;
 import com.aqua.prod.dto.EmployeeDto;
-import com.aqua.prod.common.respons.BaseResponse;
+import com.aqua.prod.common.respons.JsonResponse;
 import com.aqua.prod.dto.RegisterDto;
 import com.aqua.prod.entity.Employee;
 import com.aqua.prod.serviceImpl.EmployeeServiceImpl;
@@ -28,15 +28,15 @@ public class EmployeeController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<BaseResponse<Employee>> createEmployee(@AuthenticationPrincipal  @Validated @RequestBody UserEmployeeDto userEmployeeDto) throws UserExistsException
+    public ResponseEntity<JsonResponse<Employee>> createEmployee(@AuthenticationPrincipal  @Validated @RequestBody UserEmployeeDto userEmployeeDto) throws UserExistsException
     {
         RegisterDto registerDto = userEmployeeDto.getUser();
         EmployeeDto employeeDto = userEmployeeDto.getEmployee();
         Employee employee = employeeService.createUserAndEmployee(registerDto, employeeDto);
-        BaseResponse<Employee> baseResponse = new BaseResponse<>();
-        baseResponse.setStatus(true);
-        baseResponse.setMessage("Successfully created employee");
-        baseResponse.setData(employee);
-        return new ResponseEntity<>(baseResponse, HttpStatusCode.valueOf(201));
+        JsonResponse<Employee> jsonResponse = new JsonResponse<>();
+        jsonResponse.setStatus(true);
+        jsonResponse.setMessage("Successfully created employee");
+        jsonResponse.setData(employee);
+        return new ResponseEntity<>(jsonResponse, HttpStatusCode.valueOf(201));
     }
 }

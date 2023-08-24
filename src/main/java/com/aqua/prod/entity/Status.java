@@ -12,6 +12,11 @@ import org.hibernate.annotations.Nationalized;
 @Entity
 @Table(name = "Statuses")
 public class Status {
+
+    public Status(Integer id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
@@ -32,4 +37,8 @@ public class Status {
     @Column(name = "Description", length = 1000)
     private String description;
 
+    public Status()
+    {
+
+    }
 }
