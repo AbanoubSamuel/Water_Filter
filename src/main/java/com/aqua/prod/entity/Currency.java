@@ -1,5 +1,6 @@
 package com.aqua.prod.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,12 +27,13 @@ public class Currency {
     @Column(name = "Native_Language_Name", length = 100)
     private String nativeLanguageName;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EI_Currency_ID")
     private EiCurrency eiCurrency;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
 

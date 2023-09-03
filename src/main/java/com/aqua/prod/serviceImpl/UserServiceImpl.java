@@ -66,6 +66,5 @@ public class UserServiceImpl implements UserService {
         userDto.setPassword(encryptionService.encryptPassword(userDto.getPassword()));
         userRepo.save(UserDto.convertDtoToUser(user, userDto));
         return userDto;
-
     }
 }

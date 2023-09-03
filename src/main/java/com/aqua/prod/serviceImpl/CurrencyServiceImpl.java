@@ -19,7 +19,8 @@ public class CurrencyServiceImpl implements CurrencyService {
         this.mapper = mapper;
     }
 
-    public Optional<Currency> getCurrencyById(Integer id)
+    @Override
+    public Optional<Currency> getCurrency(Integer id)
     {
         return currencyRepo.findById(id);
     }

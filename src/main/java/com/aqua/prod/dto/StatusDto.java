@@ -12,6 +12,9 @@ import java.io.Serializable;
  */
 @Data
 public class StatusDto implements Serializable {
+    public StatusDto(int id){
+        this.id = id;
+    }
     @Nullable
     Integer id;
     @NotNull

@@ -93,10 +93,10 @@ public class PositionController {
     }
 
     @DeleteMapping
-    public ResponseEntity<JsonResponse<Position>> deletePosition(@RequestParam(name = "id") Integer id)
+    public ResponseEntity<JsonResponse<String>> deletePosition(@RequestParam(name = "id") Integer id)
     {
         positionService.deletePositionById(id);
-        JsonResponse<Position> jsonResponse = new JsonResponse<>();
+        JsonResponse<String> jsonResponse = new JsonResponse<>();
         jsonResponse.setStatus(true);
         jsonResponse.setMessage("Position deleted successfully");
         return new ResponseEntity<>(jsonResponse, HttpStatus.OK);

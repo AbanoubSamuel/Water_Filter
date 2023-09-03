@@ -31,6 +31,12 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
+    public Optional<Country> getCountry(Integer id)
+    {
+        return countryRepo.findById(id);
+    }
+
+    @Override
     public Country createCountry(CountryDto countryDto)
     {
         try {
@@ -49,5 +55,29 @@ public class CountryServiceImpl implements CountryService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Country updateCountry(CountryDto countryDto)
+    {
+        Optional<Country> country = countryRepo.findById(countryDto.getId());
+        Optional<Status> status = statusRepo.findById(countryDto.getStatus());
+        Optional<Currency> currency = currencyRepo.findById(countryDto.getCurrencyId());
+        country.get().setStatus(status.get());
+        country.get().setCurrency(currency.get());
+        country.get().setName(countryDto.getName());
+        country.get().setDescription(countryDto.getDescription());
+        return countryRepo.save(country.get());
+    }
+
+    @Override
+    public void deleteCountry(Integer id)
+    {
+        Optional<Country> country = countryRepo.findById(id);
+
+        if (countryRepo.existsById(id)) {
+            throw new EntityNotFoundException("Invalid id was provided");
+        }
+        country.ifPresent(countryRepo::delete);
     }
 }

@@ -1,5 +1,6 @@
 package com.aqua.prod.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.io.Serializable;
  */
 @Data
 public class PositionDto implements Serializable {
+    @Nullable
     Integer id;
     @NotNull
     @Size(max = 200)

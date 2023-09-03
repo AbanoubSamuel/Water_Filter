@@ -38,7 +38,7 @@ public class Employee {
     private String nationalNb;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Gender_ID", nullable = false)
     private Gender gender;
 
