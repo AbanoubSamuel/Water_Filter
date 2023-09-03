@@ -13,7 +13,6 @@ import org.hibernate.annotations.Nationalized;
 @Table(name = "Users_Types")
 public class UserType {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
@@ -29,7 +28,7 @@ public class UserType {
     private UserRole role;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Status_ID", nullable = false)
     private Status status;
 

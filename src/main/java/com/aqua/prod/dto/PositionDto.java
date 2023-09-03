@@ -1,11 +1,8 @@
 package com.aqua.prod.dto;
 
-import com.aqua.prod.entity.Status;
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.Value;
 
 import java.io.Serializable;
 

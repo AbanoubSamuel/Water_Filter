@@ -7,13 +7,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 
+import java.time.Instant;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "Customers")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
@@ -43,11 +44,6 @@ public class Customer {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Status_ID", nullable = false)
-    private Status status;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Default_Address_ID", nullable = false)
     private CustomersAddress defaultAddress;
 
@@ -70,6 +66,20 @@ public class Customer {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Preferred_Contact_Method_ID", nullable = false)
     private ContactMethod preferredContactMethod;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "Status_ID", nullable = false)
+    private Status status;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "User_ID", nullable = false)
+    private User user;
+
+    @NotNull
+    @Column(name = "Creation_Date_Time", nullable = false)
+    private Instant creationDateTime;
 
     @Size(max = 1000)
     @Nationalized

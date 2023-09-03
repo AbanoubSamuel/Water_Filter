@@ -10,8 +10,8 @@ import org.hibernate.annotations.Nationalized;
 @Getter
 @Setter
 @Entity
-@Table(name = "Contact_Methods")
-public class ContactMethod {
+@Table(name = "Complaints_Types")
+public class ComplaintsType {
     @Id
     @Column(name = "ID", nullable = false)
     private Integer id;

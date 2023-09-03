@@ -13,7 +13,6 @@ import java.time.Instant;
 @Table(name = "Products_Installment_Types_Matrix")
 public class ProductsInstallmentTypesMatrix {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 

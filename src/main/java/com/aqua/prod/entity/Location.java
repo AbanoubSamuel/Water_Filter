@@ -13,7 +13,6 @@ import org.hibernate.annotations.Nationalized;
 @Table(name = "Locations")
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 

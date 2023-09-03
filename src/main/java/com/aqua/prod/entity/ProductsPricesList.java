@@ -16,7 +16,6 @@ import java.time.LocalDate;
 @Table(name = "Products_Prices_List")
 public class ProductsPricesList {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 

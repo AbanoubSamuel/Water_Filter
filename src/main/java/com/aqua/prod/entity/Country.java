@@ -29,8 +29,9 @@ public class Country {
     private Status status;
 
     @NotNull
-    @Column(name = "Currency_ID", nullable = false)
-    private Integer currencyId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "Currency_ID", nullable = false)
+    private Currency currency;
 
     @Size(max = 1000)
     @Nationalized

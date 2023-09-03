@@ -1,6 +1,9 @@
 package com.aqua.prod.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -12,13 +15,7 @@ import org.hibernate.annotations.Nationalized;
 @Entity
 @Table(name = "Statuses")
 public class Status {
-
-    public Status(Integer id) {
-        this.id = id;
-    }
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
@@ -37,8 +34,4 @@ public class Status {
     @Column(name = "Description", length = 1000)
     private String description;
 
-    public Status()
-    {
-
-    }
 }

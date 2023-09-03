@@ -1,6 +1,5 @@
 package com.aqua.prod.serviceImpl;
 
-import com.aqua.prod.common.respons.JsonResponse;
 import com.aqua.prod.datarest.PositionRepo;
 import com.aqua.prod.datarest.StatusRepo;
 import com.aqua.prod.dto.PositionDto;
@@ -70,13 +69,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public void deletePositionById(Integer id)
     {
-        try {
-            Optional<Position> position = positionRepo.findById(id);
-            if (position.isPresent()) {
-                positionRepo.deleteById(id);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        Optional<Position> position = positionRepo.findById(id);
+        positionRepo.delete(position.get());
     }
 }

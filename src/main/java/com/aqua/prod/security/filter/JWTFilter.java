@@ -9,6 +9,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -34,11 +37,6 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
     {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Content-Type", "application/json");
-        response.setHeader("Accept", "*/*");
-        response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "Authorization, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method");
         String tokenHeader = request.getHeader(SecurityConstants.AUTHORIZATION);
         if (tokenHeader != null && tokenHeader.startsWith(BEARER)) {
             String token = tokenHeader.substring(7);
@@ -55,7 +53,6 @@ public class JWTFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
-
     }
 
 
@@ -69,5 +66,13 @@ public class JWTFilter extends OncePerRequestFilter {
         List<GrantedAuthority> authorities = Collections.singletonList(authority);
 
         return new UsernamePasswordAuthenticationToken(user, null, authorities);
+    }
+
+    @Bean(name = DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_BEAN_NAME)
+    public DispatcherServlet dispatcherServlet()
+    {
+        DispatcherServlet dispatcherServlet = new DispatcherServlet();
+        dispatcherServlet.setDispatchOptionsRequest(true);
+        return dispatcherServlet;
     }
 }

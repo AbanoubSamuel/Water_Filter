@@ -5,7 +5,6 @@ import com.aqua.prod.common.respons.JsonResponse;
 import com.aqua.prod.dto.PositionDto;
 import com.aqua.prod.entity.Position;
 import com.aqua.prod.service.PositionService;
-import com.aqua.prod.service.StatusService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +18,10 @@ import java.util.Optional;
 public class PositionController {
 
     private PositionService positionService;
-    private StatusService statusService;
 
-    public PositionController(PositionService positionService, StatusService statusService)
+    public PositionController(PositionService positionService)
     {
         this.positionService = positionService;
-        this.statusService = statusService;
     }
 
 
@@ -93,5 +90,15 @@ public class PositionController {
             jsonResponse.setMessage("Position or Status not found");
             return new ResponseEntity<>(jsonResponse, HttpStatus.SERVICE_UNAVAILABLE);
         }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<JsonResponse<Position>> deletePosition(@RequestParam(name = "id") Integer id)
+    {
+        positionService.deletePositionById(id);
+        JsonResponse<Position> jsonResponse = new JsonResponse<>();
+        jsonResponse.setStatus(true);
+        jsonResponse.setMessage("Position deleted successfully");
+        return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
 }

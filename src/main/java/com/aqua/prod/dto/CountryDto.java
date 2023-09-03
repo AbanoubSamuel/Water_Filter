@@ -8,17 +8,19 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * DTO for {@link Status}
+ * DTO for {@link com.aqua.prod.entity.Country}
  */
 @Data
-public class StatusDto implements Serializable {
+public class CountryDto implements Serializable {
     @Nullable
     Integer id;
     @NotNull
-    @Size(max = 200)
+    @Size(max = 100)
     String name;
     @NotNull
-    Boolean isActive;
+    Integer status;
+    @NotNull
+    Integer currencyId;
     @Size(max = 1000)
     String description;
 }

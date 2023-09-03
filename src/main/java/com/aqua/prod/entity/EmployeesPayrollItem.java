@@ -16,7 +16,6 @@ import java.time.LocalDate;
 @Table(name = "Employees_Payroll_Items")
 public class EmployeesPayrollItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
